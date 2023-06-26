@@ -3,55 +3,30 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"path/filepath"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/jag6/fotogen/controllers"
+	"github.com/jag6/fotogen/views"
 )
-
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, "<h1>hiddey-ho gopherino</h1>")
-}
-
-func contactHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, `
-		<h1>Contact</h1>
-		<p>to leave a message, drop me an email at <a href=\"\">this</a></p>
-	`)
-}
-
-func faqHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, `
-		<h1>FAQ Page</h1>
-		<ul>
-			<li>
-				<b>Is there a free version?</b>
-				Yes! We offer a free trial for 30 days on any paid plans.
-			</li>
-			<li>
-				<b>What are your support hours?</b>
-				We have support staff answering emails 24/7, though response
-				times may be a bit slower on weekends.
-			</li>
-			<li>
-				<b>How do I contact support?</b>
-				Email us - <a href="mailto:support@fotogen.com">support@fotogen.com</a>
-			</li>
-		</ul>
-	`)
-}
 
 func main() {
 	r := chi.NewRouter()
 
-	r.Get("/", homeHandler)
-	r.Get("/contact", contactHandler)
-	r.Get("/faq", faqHandler)
+	//homepage
+	r.Get("/", controllers.StaticHandler(views.Must(views.Parse(filepath.Join("templates", "home.html")))))
+
+	//contact page
+	r.Get("/contact", controllers.StaticHandler(views.Must(views.Parse(filepath.Join("templates", "contact.html")))))
+
+	//faq page
+	r.Get("/faq", controllers.StaticHandler(views.Must(views.Parse(filepath.Join("templates", "faq.html")))))
+
+	//404
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
-		http.Error(w, "Page Not Found", 404)
+		http.Error(w, "Page not found", http.StatusNotFound)
 	})
 
-	fmt.Println("starting server on :3000")
+	fmt.Println("server running on " + "http://localhost:3000")
 	http.ListenAndServe(":3000", r)
 }
