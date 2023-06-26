@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata First -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title -->
+    <title>{{template "title"}} | Fotogen</title>
+    <!-- Fonts + CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/headerFooter.css">
+    <link rel="stylesheet" href="/static/css/{{template "css"}}.css">
+    <!-- Favicon -->
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://fotogenrfw.online{{template "url"}}">
+    <!-- Metadata -->
+    <meta name="description" content="{{template "description"}}">
+    <meta name="format-detection" content="telephone=no">
+    <!-- Twitter Metadata -->
+    <meta name="twitter:title" content="{{template "meta_title"}}">
+    <meta name="twitter:description" content="{{template "description"}}">
+    <meta name="twitter:image" content="{{template "meta_image"}}">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- Other Social Media Metadata -->
+    <meta property="og:title" content="{{template "meta_title"}}">
+    <meta property="og:description" content="{{template "description"}}">
+    <meta property="og:image" content="{{template "meta_image"}}">
+    <meta property="og:url" content="https://fotogenrfw.online{{template "url"}}">
+    <meta property="og:site_name" content="Fotogen">
+    <!--Scripts 
+    <script src="/static/js/main.js" defer></script>-->
+</head>
+<body>
+    <header>
+        <nav class="nav">
+            <div class="logo">
+                <a href="/">
+                    <div><i class="fa-solid fa-camera-retro"></i></div>
+                    <div><p>Fotogen</p></div>
+                </a>
+            </div>
+            <div class="links">
+                <div>
+                    <ul>
+                        <li><a href="/home">HOME</a></li>
+                        <li><a href="/contact">CONTACT</a></li>
+                        <li><a href="/faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="user-links">
+                    <ul>
+                        <li><div><i class="fa-solid fa-user"></i></div><a href="/login">LOG IN</a></li>
+                        <li><div><i class="fa-solid fa-plus"></i></div><a href="/signup">SIGN UP</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        {{template "page" .}}
+    </main>
+    <footer></footer>
+</body>
+</html>

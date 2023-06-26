@@ -1,0 +1,85 @@
+header {
+    height: 48px;
+    padding: 0 2%;
+    background-color: #bd081c;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+html {
+    scroll-padding-top: 48px;
+}
+main {
+    padding-top: 48px;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+}
+
+.user-links {
+    margin-left: 3rem;
+    margin-right: -1rem;
+}
+
+.nav ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.nav ul li {
+    list-style: none;
+    margin: 0 1rem;
+}
+
+.nav ul li a, .nav ul li i {
+    font-size: 18px;
+    line-height: 32px;
+    height: 32px;
+    color: #fff;
+}
+
+.nav ul li a {
+    font-weight: 500;
+    font-family: 'Quicksand', sans-serif;
+    border-bottom: 2px solid transparent;
+}
+
+.nav ul li a:hover {
+    border-bottom: 2px solid #fff;
+    transition: .3s ease-in-out;
+}
+
+.logo a, .user-links ul li {
+    display: flex;
+    flex-direction: row;
+}
+
+.logo div i, .logo div p {
+    font-size: 24px;
+    line-height: 48px;
+    color: #fff;
+}
+
+.logo div:nth-child(1), .user-links ul li div {
+    margin-right: .5rem;
+}
+
+.logo div p {
+    font-size: 28px;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+}
