@@ -1,0 +1,101 @@
+.user-form {
+    background-color: #dedede;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    margin: 4rem auto;
+    padding: 1rem 2%;
+    justify-content: center;
+    border: 1px solid #333 !important;
+    border-radius: 20px;
+    color: #111;
+}
+
+.form-header {
+    margin-bottom: 2rem;
+}
+
+.user-form h1 {
+    font-size: 24px;
+    line-height: 48px;
+}
+
+.user-form h2 {
+    font-size: 18px;
+    line-height: 24px;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.form div {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-btn {
+    font-size: 20px;
+    line-height: 40px;
+    font-weight: 700;
+    background-color: #A30719;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.form-btn:hover {
+    opacity: .8;
+    transition: .3s;
+}
+
+.form input:focus {
+    outline: none !important;
+    border: 2px solid #007018;
+}
+
+.form-links {
+    flex-direction: row !important;
+    display: flex;
+    margin: 0 auto;
+    justify-content: space-around;
+    align-items: baseline;
+    margin-top: 2rem;
+}
+
+.form-links div a {
+    font-size: 14px;
+    line-height: 24px;
+    color: #222;
+    font-style: italic;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    text-align: center;
+}
+
+.form-links div:nth-child(1) a {
+    font-style: normal;
+}
+
+.form-links div a:hover {
+    border-bottom: 2px solid #222;
+    transition: .5s ease-in-out;
+}
+
+
+@media only screen and (max-width: 576px) {
+    .user-form {
+        padding: 1rem 5%;
+    }
+
+    .form-links {
+        flex-direction: column !important;
+    }
+
+    .form-links div:nth-child(1) {
+        margin-bottom: .5rem;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .user-form {
+        margin: 4rem 5%;
+    }
+}

@@ -35,9 +35,7 @@ html, body {
 }
 body {
     font-size: 8px;
-}
-main {
-    padding-bottom: 64px;
+    background-color: #f3f3f3;
 }
 
 h1 {
@@ -66,9 +64,10 @@ p {
 }
 h1, h2, h3, h4, h5 {
     font-family: 'Quicksand', sans-serif;
+    text-align: center;
 }
-p, label, input, textarea, li, select, option {
-    font-family: '', sans-serif;
+p, label, input, textarea, li, select, option, button, a {
+    font-family: 'Quicksand', sans-serif;
 }
 label {
     font-weight: 700;
@@ -114,6 +113,23 @@ button {
 
 .opacity-8:hover {
     opacity: .8;
+}
+
+
+/*COLORS*/
+
+.red { background-color: #bd081c; }
+.dark-red { background-color: #A30719; }
+.dark-green { background-color: #007018 }
+.light-blue { background-color: #1A88BD; }
+.dark-blue { background-color: #0A4F70;}
+.yellow { background-color: #BDB71A; }
+
+
+/*PAGE HEADER*/
+
+.page-header {
+    margin: 2rem 0 4rem 0;
 }
 
 

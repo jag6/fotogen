@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Title -->
-    <title>{{template "title"}} | Fotogen</title>
+    <title>{{template "title" .}} | Fotogen</title>
     <!-- Fonts + CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,24 +13,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/headerFooter.css">
-    <link rel="stylesheet" href="/static/css/{{template "css"}}.css">
+    <link rel="stylesheet" href="/static/css/{{template "css" .}}.css">
     <!-- Favicon -->
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://fotogenrfw.online{{template "url"}}">
+    <link rel="canonical" href="https://fotogenrfw.online{{template "url" .}}">
     <!-- Metadata -->
-    <meta name="description" content="{{template "description"}}">
+    <meta name="description" content="{{template "description" .}}">
     <meta name="format-detection" content="telephone=no">
     <!-- Twitter Metadata -->
-    <meta name="twitter:title" content="{{template "meta_title"}}">
-    <meta name="twitter:description" content="{{template "description"}}">
-    <meta name="twitter:image" content="{{template "meta_image"}}">
+    <meta name="twitter:title" content="{{template "meta_title" .}}">
+    <meta name="twitter:description" content="{{template "description" .}}">
+    <meta name="twitter:image" content="{{template "meta_image" .}}">
     <meta name="twitter:card" content="summary_large_image">
     <!-- Other Social Media Metadata -->
-    <meta property="og:title" content="{{template "meta_title"}}">
-    <meta property="og:description" content="{{template "description"}}">
-    <meta property="og:image" content="{{template "meta_image"}}">
-    <meta property="og:url" content="https://fotogenrfw.online{{template "url"}}">
+    <meta property="og:title" content="{{template "meta_title" .}}">
+    <meta property="og:description" content="{{template "description" .}}">
+    <meta property="og:image" content="{{template "meta_image" .}}">
+    <meta property="og:url" content="https://fotogenrfw.online{{template "url" .}}">
     <meta property="og:site_name" content="Fotogen">
     <!--Scripts 
     <script src="/static/js/main.js" defer></script>-->
@@ -47,7 +47,7 @@
             <div class="links">
                 <div>
                     <ul>
-                        <li><a href="/home">HOME</a></li>
+                        <li><a href="/">HOME</a></li>
                         <li><a href="/contact">CONTACT</a></li>
                         <li><a href="/faq">FAQ</a></li>
                     </ul>
@@ -64,6 +64,10 @@
     <main>
         {{template "page" .}}
     </main>
-    <footer></footer>
+    <footer>
+        <div>
+            <p>Fotogen 2023&copy;</p>
+        </div>
+    </footer>
 </body>
 </html>

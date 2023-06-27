@@ -1,0 +1,32 @@
+.contact-info {
+    display: flex;
+    flex-flow: row wrap;
+    max-width: 1200px;
+    padding: 0 5%;
+    margin: 0 auto;
+    margin-bottom: 4rem;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contact-info div img {
+    width: 100%;
+    max-width: 500px;
+}
+
+.contact-info div p {
+    font-size: 20px;
+    line-height: 40px;
+    font-weight: 500;
+}
+
+.contact-info div a {
+    color: #A30719;
+    font-weight: 700;
+}
+
+@media only screen and (max-width: 800px) {
+    .contact-info div:nth-child(2) {
+        margin-top: 2rem;
+    }
+}

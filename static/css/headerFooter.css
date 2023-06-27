@@ -1,3 +1,5 @@
+/*HEADER*/
+
 header {
     height: 48px;
     padding: 0 2%;
@@ -14,7 +16,7 @@ html {
     scroll-padding-top: 48px;
 }
 main {
-    padding-top: 48px;
+    padding: 48px 0;
 }
 
 .nav {
@@ -82,4 +84,22 @@ main {
     font-size: 28px;
     font-family: 'Dancing Script', cursive;
     font-weight: 700;
+}
+
+
+/*FOOTER*/
+
+footer {
+    height: 48px;
+    background-color: #c5c5c5;
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+    padding: .5rem 3%;
+}
+
+footer p {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 32px;
 }

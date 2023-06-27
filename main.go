@@ -18,13 +18,19 @@ func main() {
 	r.Handle("/static/*", http.StripPrefix("/static", http.FileServer(http.FS(static.FS))))
 
 	//homepage
-	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "home.html"))))
+	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "pages/home.html"))))
 
 	//contact page
-	r.Get("/contact", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "contact.html"))))
+	r.Get("/contact", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "pages/contact.html"))))
 
 	//faq page
-	r.Get("/faq", controllers.FAQ(views.Must(views.ParseFS(templates.FS, "base.html", "faq.html"))))
+	r.Get("/faq", controllers.FAQ(views.Must(views.ParseFS(templates.FS, "base.html", "pages/faq.html"))))
+
+	//signup page
+	r.Get("/signup", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "users/signup.html", "components/userForm.html"))))
+
+	//login page
+	r.Get("/login", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "users/login.html", "components/userForm.html"))))
 
 	//404
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
