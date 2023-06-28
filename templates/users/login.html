@@ -11,14 +11,27 @@
 {{define "meta_image"}}{{end}}
 
 {{define "page"}}
-    {{template "userForm"}}
+    <section class="user-form">
+        <section class="form-header">
+            <h1>Welcome Back</h1>
+            <h2>Your wonderful world of photos awaits</h2>
+        </section>
+        <form action="/users" method="post" class="form">
+            <div>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required autocomplete="email" value="{{.Email}}" {{if not .Email}}autofocus{{end}}>
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required {{if .Email}}autofocus{{end}}>
+            </div>
+            <div class="margin-top-2">
+                <button aria-label="Signup Form Submit Button" type="submit" class="form-btn">Continue</button>
+            </div>
+            <div class="form-links">
+                <div><a href="/signup">Don't have an account?</a></div>
+                <div><a href="/reset-pw">Forgot your password?</a></div>
+            </div>
+        </form>
+    </section>
 {{end}}
-
-{{define "form_title"}}Welcome Back{{end}}
-{{define "form_title2"}}Your wonderful world of photos awaits{{end}}
-{{define "form_action"}}login{{end}}
-
-{{define "form_link"}}signup{{end}}
-{{define "form_link_text"}}Don't have an account?{{end}}
-{{define "form_link2"}}reset-pw{{end}}
-{{define "form_link_text2"}}Forgot your password?{{end}}

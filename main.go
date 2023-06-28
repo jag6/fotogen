@@ -27,10 +27,13 @@ func main() {
 	r.Get("/faq", controllers.FAQ(views.Must(views.ParseFS(templates.FS, "base.html", "pages/faq.html"))))
 
 	//signup page
-	r.Get("/signup", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "users/signup.html", "components/userForm.html"))))
+	usersC := controllers.Users{}
+	usersC.Templates.New = views.Must(views.ParseFS(templates.FS, "base.html", "users/signup.html"))
+	r.Get("/signup", usersC.New)
+	r.Post("/users", usersC.Create)
 
 	//login page
-	r.Get("/login", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "users/login.html", "components/userForm.html"))))
+	r.Get("/login", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "users/login.html"))))
 
 	//404
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
