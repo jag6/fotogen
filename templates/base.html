@@ -15,7 +15,12 @@
     <link rel="stylesheet" href="/static/css/headerFooter.css">
     <link rel="stylesheet" href="/static/css/{{template "css" .}}.css">
     <!-- Favicon -->
-
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/static/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
     <!-- Canonical URL -->
     <link rel="canonical" href="https://fotogenrfw.online{{template "url" .}}">
     <!-- Metadata -->
@@ -32,8 +37,8 @@
     <meta property="og:image" content="{{template "meta_image" .}}">
     <meta property="og:url" content="https://fotogenrfw.online{{template "url" .}}">
     <meta property="og:site_name" content="Fotogen">
-    <!--Scripts 
-    <script src="/static/js/main.js" defer></script>-->
+    <!--Scripts -->
+    <script src="/static/js/main.js" defer></script>
 </head>
 <body>
     <header>
@@ -60,6 +65,28 @@
                 </div>
             </div>
         </nav>
+        <div id="hamburger-icon" class="hamburger-icon">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div id="nav-overlay" class="nav-overlay">
+            <nav id="mobile-nav" class="mobile-nav">
+                <div class="links">
+                    <div>
+                        <ul>
+                            <li><a href="/">HOME</a></li>
+                            <li><a href="/contact">CONTACT</a></li>
+                            <li><a href="/faq">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div class="user-links">
+                        <ul>
+                            <li><div><i class="fa-solid fa-user"></i></div><a href="/login">LOG IN</a></li>
+                            <li><div><i class="fa-solid fa-plus"></i></div><a href="/signup">SIGN UP</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
     </header>
     <main>
         {{template "page" .}}

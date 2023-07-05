@@ -1,3 +1,30 @@
+//MOBILE NAV
+const mobile_nav = document.getElementById('mobile-nav');
+const nav_overlay = document.getElementById('nav-overlay');
+const body = document.querySelector('body');
+
+const clickOff = () => {
+    nav_overlay.style.display = 'none';
+    mobile_nav.style.width = '0%';
+    body.style.overflow = 'auto';
+};
+
+document.getElementById('hamburger-icon').addEventListener('click', () => {
+    if(mobile_nav.style.width === '90%') {
+        clickOff();
+    }else {
+        mobile_nav.style.width = '90%';
+        nav_overlay.style.display = 'flex';
+        body.style.overflow = 'hidden';
+    }
+});
+
+nav_overlay.addEventListener('click', (e) => {
+    if(e.target == nav_overlay) {
+        clickOff();
+    }
+});
+
 //Animations
 const scrollElements = document.querySelectorAll(".js-scroll");
 const elementInView = (el, dividend = 1) => {
@@ -30,27 +57,4 @@ const handleScrollAnimation = () => {
 };
 window.addEventListener("scroll", () => { 
 	handleScrollAnimation();
-});
-
-
-//Color Switch
-const isLight = () => {
-    return localStorage.getItem('light-mode');
-};
-const toggleRootClass = () => {
-    document.querySelector(':root').classList.toggle('light');
-};
-const toggleLocalStorageItem = () => {
-    if (isLight()) {
-        localStorage.removeItem('light-mode');
-    }else {
-        localStorage.setItem('light-mode', 'set');
-    }
-};
-if(isLight()) {
-    toggleRootClass();
-}
-document.querySelector('.theme-icon').addEventListener('click', () => {
-    toggleLocalStorageItem();
-    toggleRootClass();
 });

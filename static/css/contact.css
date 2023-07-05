@@ -1,8 +1,10 @@
 .contact-info {
     display: flex;
+    background-color: #fff;
+    border-radius: 10px;
     flex-flow: row wrap;
     max-width: 1200px;
-    padding: 0 5%;
+    padding: 1rem 5% 2rem 5%;
     margin: 0 auto;
     margin-bottom: 4rem;
     justify-content: space-around;
@@ -25,7 +27,12 @@
     font-weight: 700;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1200px) {
+    .contact-info {
+        margin: 0 5%;
+        margin-bottom: 4rem;
+    }
+
     .contact-info div:nth-child(2) {
         margin-top: 2rem;
     }

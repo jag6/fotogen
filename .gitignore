@@ -1,6 +1,7 @@
 fotogen
-cmd/exp
+cmd
 
 docker-compose.yml
 
 notes.txt
+test.html

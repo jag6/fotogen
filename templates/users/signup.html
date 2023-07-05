@@ -13,7 +13,7 @@
 {{define "page"}}
     <section class="user-form">
         <section class="form-header">
-            <h1>Welcome to Fotogen</h1>
+            <h1>Welcome to Fotogen!</h1>
             <h2>The best place for photo-sharing</h2>
         </section>
         <form action="/users" method="post" class="form">
@@ -22,8 +22,12 @@
                 <input type="email" name="email" id="email" required autocomplete="email" value="{{.Email}}" {{if not .Email}}autofocus{{end}}>
             </div>
             <div>
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" required autocomplete="username" value="{{.Email}}" {{if .Email}}autofocus{{end}}>
+            </div>
+            <div>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" required {{if .Email}}autofocus{{end}}>
+                <input type="password" name="password" id="password" required>
             </div>
             <div class="margin-top-2">
                 <button aria-label="Signup Form Submit Button" type="submit" class="form-btn">Continue</button>

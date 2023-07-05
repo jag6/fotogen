@@ -6,7 +6,6 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/jag6/fotogen/controllers"
-	"github.com/jag6/fotogen/static"
 	"github.com/jag6/fotogen/templates"
 	"github.com/jag6/fotogen/views"
 )
@@ -15,7 +14,10 @@ func main() {
 	r := chi.NewRouter()
 
 	//static files
-	r.Handle("/static/*", http.StripPrefix("/static", http.FileServer(http.FS(static.FS))))
+	r.Handle("/static/*", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
+
+	//test
+	r.Get("/test", controllers.StaticHandler(views.Must(views.Parse("templates/base.html", "test.html"))))
 
 	//homepage
 	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "pages/home.html"))))

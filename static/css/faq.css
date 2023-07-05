@@ -22,6 +22,8 @@
 .faq-qa ul li a {
     overflow-wrap: break-word;
     word-break: break-all;
+    color: #A30719;
+    font-weight: 500;
 }
 
 @media only screen and (max-width: 400px) {
