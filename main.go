@@ -5,7 +5,9 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/gorilla/csrf"
 	"github.com/jag6/fotogen/controllers"
+	"github.com/jag6/fotogen/models"
 	"github.com/jag6/fotogen/templates"
 	"github.com/jag6/fotogen/views"
 )
@@ -28,14 +30,32 @@ func main() {
 	//faq page
 	r.Get("/faq", controllers.FAQ(views.Must(views.ParseFS(templates.FS, "base.html", "pages/faq.html"))))
 
+	//postgres connection
+	cfg := models.DefaultPostgresConfig()
+	db, err := models.Open(cfg)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	userService := models.UserService{
+		DB: db,
+	}
+
+	usersC := controllers.Users{
+		UserService: &userService,
+	}
 	//signup page
-	usersC := controllers.Users{}
 	usersC.Templates.New = views.Must(views.ParseFS(templates.FS, "base.html", "users/signup.html"))
 	r.Get("/signup", usersC.New)
 	r.Post("/users", usersC.Create)
 
-	//login page
-	r.Get("/login", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "users/login.html"))))
+	//signin page
+	usersC.Templates.SignIn = views.Must(views.ParseFS(templates.FS, "base.html", "users/signin.html"))
+	r.Get("/signin", usersC.SignIn)
+	r.Post("/signin", usersC.ProcessSignIn)
+
+	//cookies
+	r.Get("/users/me", usersC.CurrentUser)
 
 	//404
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
@@ -43,5 +63,7 @@ func main() {
 	})
 
 	fmt.Println("server running on " + "http://localhost:3000")
-	http.ListenAndServe(":3000", r)
+	csrfKey := ""
+	csrfMw := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
+	http.ListenAndServe(":3000", csrfMw(r))
 }

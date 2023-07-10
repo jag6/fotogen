@@ -1,12 +1,12 @@
-{{define "title"}}Log In{{end}}
+{{define "title"}}Sign In{{end}}
 
 {{define "css"}}forms{{end}}
 
-{{define "url"}}/signup{{end}}
+{{define "url"}}/signin{{end}}
 
 {{define "description"}}Welcome back{{end}}
 
-{{define "meta_title"}}Sign Up{{end}}
+{{define "meta_title"}}Sign In{{end}}
 
 {{define "meta_image"}}{{end}}
 
@@ -16,7 +16,10 @@
             <h1>Welcome Back</h1>
             <h2>Your wonderful world of photos awaits</h2>
         </section>
-        <form action="/users" method="post" class="form">
+        <form action="/signin" method="post" class="form">
+            <div>
+                {{csrfField}}
+            </div>
             <div>
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" required autocomplete="email" value="{{.Email}}" {{if not .Email}}autofocus{{end}}>

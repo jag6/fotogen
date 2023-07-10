@@ -8,17 +8,15 @@ const clickOff = () => {
     mobile_nav.style.width = '0%';
     body.style.overflow = 'auto';
 };
-
 document.getElementById('hamburger-icon').addEventListener('click', () => {
-    if(mobile_nav.style.width === '90%') {
+    if(mobile_nav.style.width === '300px') {
         clickOff();
     }else {
-        mobile_nav.style.width = '90%';
+        mobile_nav.style.width = '300px';
         nav_overlay.style.display = 'flex';
         body.style.overflow = 'hidden';
     }
 });
-
 nav_overlay.addEventListener('click', (e) => {
     if(e.target == nav_overlay) {
         clickOff();

@@ -1,6 +1,8 @@
 fotogen
 cmd
 
+models/postgres.go
+
 docker-compose.yml
 
 notes.txt
