@@ -19,6 +19,27 @@ main {
     padding: 48px 0;
 }
 
+.logo a, .user-links ul li {
+    display: flex;
+    flex-direction: row;
+}
+
+.logo a span i, .logo div p {
+    font-size: 24px;
+    line-height: 48px;
+    color: #fff;
+}
+
+.logo span, .user-links ul li span {
+    margin-right: .5rem;
+}
+
+.logo div p {
+    font-size: 28px;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+}
+
 .nav {
     display: flex;
     align-items: center;
@@ -40,7 +61,6 @@ header ul { list-style: none; }
 header ul li a, header ul li i { 
     color: #fff; 
     font-weight: 500;
-    font-family: 'Quicksand', sans-serif;
     border-bottom: 2px solid transparent;
 }
 
@@ -54,36 +74,30 @@ header ul li a, header ul li i {
     margin: 0 1rem;
 }
 
-.nav ul li a, .nav ul li i {
+.nav ul li a, .nav ul li i, .nav ul li button {
     font-size: 18px;
     line-height: 32px;
     height: 32px;
 }
 
+header .user-links form div button {
+    color: #fff;
+    font-weight: 500;
+    padding: 0;
+}
+
+.nav .user-links form div button {
+    background-color: #bd081c;
+    margin-bottom: 2px;
+}
+
+header ul li form div button:hover {
+    opacity: .5;
+}
+
 .nav ul li a:hover {
     border-bottom: 2px solid #fff;
     transition: .3s ease-in-out;
-}
-
-.logo a, .user-links ul li {
-    display: flex;
-    flex-direction: row;
-}
-
-.logo div i, .logo div p {
-    font-size: 24px;
-    line-height: 48px;
-    color: #fff;
-}
-
-.logo div:nth-child(1), .user-links ul li div {
-    margin-right: .5rem;
-}
-
-.logo div p {
-    font-size: 28px;
-    font-family: 'Dancing Script', cursive;
-    font-weight: 700;
 }
 
 /*MOBILE*/
@@ -154,9 +168,13 @@ header ul li a, header ul li i {
     width: 100%;
 }
 
-.mobile-nav ul li a, .mobile-nav ul li i {
+.mobile-nav ul li a, .mobile-nav ul li i, .mobile-nav .user-links form div button {
     font-size: 20px;
     line-height: 56px;
+}
+
+.mobile-nav .user-links form div button {
+    background-color: #C9081F;
 }
 
 .mobile-nav .user-links {
@@ -169,7 +187,7 @@ header ul li a, header ul li i {
         display: flex;
     }
 
-    header .nav .links, .header .nav .user-links{
+    header .nav .links, header .nav .user-links {
         display: none;
     }
 }

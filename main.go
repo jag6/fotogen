@@ -18,8 +18,8 @@ func main() {
 	//static files
 	r.Handle("/static/*", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
 
-	//test
-	r.Get("/test", controllers.StaticHandler(views.Must(views.Parse("templates/base.html", "test.html"))))
+	// //test
+	// r.Get("/test", controllers.StaticHandler(views.Must(views.Parse("templates/base.html", "templates/components/header.html", "test.html"))))
 
 	//homepage
 	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "pages/home.html"))))
@@ -40,9 +40,13 @@ func main() {
 	userService := models.UserService{
 		DB: db,
 	}
+	sessionService := models.SessionService{
+		DB: db,
+	}
 
 	usersC := controllers.Users{
-		UserService: &userService,
+		UserService:    &userService,
+		SessionService: &sessionService,
 	}
 	//signup page
 	usersC.Templates.New = views.Must(views.ParseFS(templates.FS, "base.html", "users/signup.html"))
@@ -53,6 +57,9 @@ func main() {
 	usersC.Templates.SignIn = views.Must(views.ParseFS(templates.FS, "base.html", "users/signin.html"))
 	r.Get("/signin", usersC.SignIn)
 	r.Post("/signin", usersC.ProcessSignIn)
+
+	//logout
+	r.Post("/signout", usersC.SignOut)
 
 	//cookies
 	r.Get("/users/me", usersC.CurrentUser)

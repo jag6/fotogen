@@ -45,46 +45,18 @@
         <nav class="nav">
             <div class="logo">
                 <a href="/">
-                    <div><i class="fa-solid fa-camera-retro"></i></div>
+                    <span><i class="fa-solid fa-camera-retro"></i></span>
                     <div><p>Fotogen</p></div>
                 </a>
             </div>
-            <div class="links">
-                <div>
-                    <ul>
-                        <li><a href="/">HOME</a></li>
-                        <li><a href="/contact">CONTACT</a></li>
-                        <li><a href="/faq">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="user-links">
-                    <ul>
-                        <li><div><i class="fa-solid fa-user"></i></div><a href="/signin">SIGN IN</a></li>
-                        <li><div><i class="fa-solid fa-plus"></i></div><a href="/signup">SIGN UP</a></li>
-                    </ul>
-                </div>
-            </div>
+            {{template "links" .}}
         </nav>
         <div id="hamburger-icon" class="hamburger-icon">
             <i class="fa-solid fa-bars"></i>
         </div>
         <div id="nav-overlay" class="nav-overlay">
             <nav id="mobile-nav" class="mobile-nav">
-                <div class="links">
-                    <div>
-                        <ul>
-                            <li><a href="/">HOME</a></li>
-                            <li><a href="/contact">CONTACT</a></li>
-                            <li><a href="/faq">FAQ</a></li>
-                        </ul>
-                    </div>
-                    <div class="user-links">
-                        <ul>
-                            <li><div><i class="fa-solid fa-user"></i></div><a href="/signin">SIGN IN</a></li>
-                            <li><div><i class="fa-solid fa-plus"></i></div><a href="/signup">SIGN UP</a></li>
-                        </ul>
-                    </div>
-                </div>
+                {{template "links" .}}
             </nav>
         </div>
     </header>
@@ -98,3 +70,32 @@
     </footer>
 </body>
 </html>
+
+{{define "links"}}
+    <div class="links">
+        <div>
+            <ul>
+                <li><a href="/">HOME</a></li>
+                <li><a href="/contact">CONTACT</a></li>
+                <li><a href="/faq">FAQ</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="user-links">
+        <ul>
+            <li>
+                <form action="/signout" method="post">
+                    <div> 
+                        {{csrfField}}
+                    </div>   
+                    <div class="signout-btn">
+                        <span><i class="fa-solid fa-right-from-bracket"></i></span>
+                        <button type="submit" aria-label="Sign Out Button">SIGN OUT</button>
+                    </div>
+                </form>
+            </li>
+            <li><span><i class="fa-solid fa-user"></i></span><a href="/signin">SIGN IN</a></li>
+            <li><span><i class="fa-solid fa-plus"></i></span><a href="/signup">SIGN UP</a></li>
+        </ul>
+    </div>
+{{end}}
