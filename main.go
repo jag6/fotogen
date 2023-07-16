@@ -7,6 +7,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/gorilla/csrf"
 	"github.com/jag6/fotogen/controllers"
+	"github.com/jag6/fotogen/migrations"
 	"github.com/jag6/fotogen/models"
 	"github.com/jag6/fotogen/templates"
 	"github.com/jag6/fotogen/views"
@@ -37,6 +38,11 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
+
+	err = models.MigrateFS(db, migrations.FS, ".")
+	if err != nil {
+		panic(err)
+	}
 	userService := models.UserService{
 		DB: db,
 	}
