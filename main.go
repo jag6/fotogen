@@ -14,24 +14,7 @@ import (
 )
 
 func main() {
-	r := chi.NewRouter()
-
-	//static files
-	r.Handle("/static/*", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
-
-	// //test
-	// r.Get("/test", controllers.StaticHandler(views.Must(views.Parse("templates/base.html", "templates/components/header.html", "test.html"))))
-
-	//homepage
-	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "pages/home.html"))))
-
-	//contact page
-	r.Get("/contact", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "pages/contact.html"))))
-
-	//faq page
-	r.Get("/faq", controllers.FAQ(views.Must(views.ParseFS(templates.FS, "base.html", "pages/faq.html"))))
-
-	//postgres connection
+	//database
 	cfg := models.DefaultPostgresConfig()
 	db, err := models.Open(cfg)
 	if err != nil {
@@ -43,6 +26,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	//services
 	userService := models.UserService{
 		DB: db,
 	}
@@ -50,33 +35,62 @@ func main() {
 		DB: db,
 	}
 
+	//middleware
+	umw := controllers.UserMiddleware{
+		SessionService: &sessionService,
+	}
+
+	csrfKey := ""
+	csrfMw := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
+
+	//controllers
 	usersC := controllers.Users{
 		UserService:    &userService,
 		SessionService: &sessionService,
 	}
-	//signup page
 	usersC.Templates.New = views.Must(views.ParseFS(templates.FS, "base.html", "users/signup.html"))
+	usersC.Templates.SignIn = views.Must(views.ParseFS(templates.FS, "base.html", "users/signin.html"))
+
+	//router and routes
+	r := chi.NewRouter()
+	r.Use(csrfMw)
+	r.Use(umw.SetUser)
+
+	//static files
+	r.Handle("/static/*", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
+
+	//homepage
+	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "pages/home.html"))))
+
+	//contact page
+	r.Get("/contact", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "pages/contact.html"))))
+
+	//faq page
+	r.Get("/faq", controllers.FAQ(views.Must(views.ParseFS(templates.FS, "base.html", "pages/faq.html"))))
+
+	//signup page
 	r.Get("/signup", usersC.New)
 	r.Post("/users", usersC.Create)
 
 	//signin page
-	usersC.Templates.SignIn = views.Must(views.ParseFS(templates.FS, "base.html", "users/signin.html"))
 	r.Get("/signin", usersC.SignIn)
 	r.Post("/signin", usersC.ProcessSignIn)
 
 	//logout
 	r.Post("/signout", usersC.SignOut)
 
-	//cookies
-	r.Get("/users/me", usersC.CurrentUser)
+	//user page
+	r.Route("/users/me", func(r chi.Router) {
+		r.Use(umw.RequireUser)
+		r.Get("/", usersC.CurrentUser)
+	})
 
 	//404
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
 
+	//start server
 	fmt.Println("server running on " + "http://localhost:3000")
-	csrfKey := ""
-	csrfMw := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
-	http.ListenAndServe(":3000", csrfMw(r))
+	http.ListenAndServe(":3000", r)
 }

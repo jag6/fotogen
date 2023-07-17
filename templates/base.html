@@ -83,19 +83,22 @@
     </div>
     <div class="user-links">
         <ul>
-            <li>
-                <form action="/signout" method="post">
-                    <div> 
-                        {{csrfField}}
-                    </div>   
-                    <div class="signout-btn">
-                        <span><i class="fa-solid fa-right-from-bracket"></i></span>
-                        <button type="submit" aria-label="Sign Out Button">SIGN OUT</button>
-                    </div>
-                </form>
-            </li>
-            <li><span><i class="fa-solid fa-user"></i></span><a href="/signin">SIGN IN</a></li>
-            <li><span><i class="fa-solid fa-plus"></i></span><a href="/signup">SIGN UP</a></li>
+            {{if currentUser}} 
+                <li>
+                    <form action="/signout" method="post">
+                        <div> 
+                            {{csrfField}}
+                        </div>   
+                        <div class="signout-btn">
+                            <span><i class="fa-solid fa-right-from-bracket"></i></span>
+                            <button type="submit" aria-label="Sign Out Button">SIGN OUT</button>
+                        </div>
+                    </form>
+                </li>
+            {{else}}
+                <li><span><i class="fa-solid fa-user"></i></span><a href="/signin">SIGN IN</a></li>
+                <li><span><i class="fa-solid fa-plus"></i></span><a href="/signup">SIGN UP</a></li>
+            {{end}}
         </ul>
     </div>
 {{end}}
