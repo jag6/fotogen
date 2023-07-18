@@ -1,0 +1,37 @@
+{{define "title"}}Forgot Your Password?{{end}}
+
+{{define "css"}}forms{{end}}
+
+{{define "url"}}/forgot-pw{{end}}
+
+{{define "description"}}Forgot your Password? Please enter your email address and we'll send you a link to reset your password.{{end}}
+
+{{define "meta_title"}}Forgot Your Password?{{end}}
+
+{{define "meta_image"}}{{end}}
+
+{{define "page"}}
+    <section class="user-form">
+        <section class="form-header">
+            <div><i class="fa-solid fa-camera-retro"></i></div>
+            <section><h1>Forgot Your Password?</h1></section>
+            <div><p>Not a problem. Enter your email address below and we'll send you a link to reset your password.</p></div>
+        </section>
+        <form action="/forgot-pw" method="post" class="form">
+            <div>
+                {{csrfField}}
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required autocomplete="email" value="{{.Email}}" autofocus>
+            </div>
+            <div class="margin-top-2">
+                <button aria-label="Signup Form Submit Button" type="submit" class="form-btn">Reset Password</button>
+            </div>
+            <div class="form-links">
+                <div><a href="/sign-up">Don't have an account?</a></div>
+                <div><a href="/sign-in">Remember your password?</a></div>
+            </div>
+        </form>
+    </section>
+{{end}}

@@ -18,14 +18,14 @@ type Email struct {
 	HTML      string
 }
 
-type SMPTConfig struct {
+type SMTPConfig struct {
 	Host     string
 	Port     int
 	Username string
 	Password string
 }
 
-func NewEmailService(config SMPTConfig) *EmailService {
+func NewEmailService(config SMTPConfig) *EmailService {
 	es := EmailService{
 		dialer: mail.NewDialer(config.Host, config.Port, config.Username, config.Password),
 	}

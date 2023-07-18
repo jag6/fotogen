@@ -1,12 +1,12 @@
-{{define "title"}}Sign In{{end}}
+{{define "title"}}Sign Up{{end}}
 
 {{define "css"}}forms{{end}}
 
-{{define "url"}}/signin{{end}}
+{{define "url"}}/sign-up{{end}}
 
-{{define "description"}}Welcome back{{end}}
+{{define "description"}}Sign up here for a new account.{{end}}
 
-{{define "meta_title"}}Sign In{{end}}
+{{define "meta_title"}}Sign Up{{end}}
 
 {{define "meta_image"}}{{end}}
 
@@ -14,10 +14,10 @@
     <section class="user-form">
         <section class="form-header">
             <div><i class="fa-solid fa-camera-retro"></i></div>
-            <section><h1>Welcome Back</h1></section>
-            <section><h2>Your wonderful world of photos awaits</h2></section>
+            <section><h1>Welcome to Fotogen!</h1></section>
+            <section><h2>The best place for photo-sharing</h2></section>
         </section>
-        <form action="/signin" method="post" class="form">
+        <form action="/users" method="post" class="form">
             <div>
                 {{csrfField}}
             </div>
@@ -26,15 +26,19 @@
                 <input type="email" name="email" id="email" required autocomplete="email" value="{{.Email}}" {{if not .Email}}autofocus{{end}}>
             </div>
             <div>
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" required autocomplete="username" value="{{.Email}}" {{if .Email}}autofocus{{end}}>
+            </div>
+            <div>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" required {{if .Email}}autofocus{{end}}>
+                <input type="password" name="password" id="password" required>
             </div>
             <div class="margin-top-2">
                 <button aria-label="Signup Form Submit Button" type="submit" class="form-btn">Continue</button>
             </div>
             <div class="form-links">
-                <div><a href="/signup">Don't have an account?</a></div>
-                <div><a href="/reset-pw">Forgot your password?</a></div>
+                <div><a href="/sign-in">Already have an account?</a></div>
+                <div><a href="/forgot-pw">Forgot your password?</a></div>
             </div>
         </form>
     </section>

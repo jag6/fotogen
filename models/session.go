@@ -25,6 +25,9 @@ type Session struct {
 type SessionService struct {
 	DB            *sql.DB
 	BytesPerToken int
+	// BytesPerToken is used to determine how many bytes to use when generating each password reset token.
+	// If this value is not set or is less than the
+	// MinBytesPerToken const, it will be ignored and MinBytesPerToken will be used instead.
 }
 
 func (ss *SessionService) Create(userID int) (*Session, error) {

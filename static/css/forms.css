@@ -14,11 +14,7 @@
     color: #111;
 }
 
-.form-header {
-    margin-bottom: 2rem;
-}
-
-.form-header div {
+.form-header div:nth-child(1) {
     background-color: #bd081c;
     border-radius: 50%;
     height: 48px;
@@ -44,6 +40,15 @@
     line-height: 24px;
     font-style: italic;
     font-weight: 600;
+}
+
+.form-header div p {
+    text-align: center;
+    font-weight: 500;
+}
+
+.form {
+    margin-top: 2rem;
 }
 
 .form div {

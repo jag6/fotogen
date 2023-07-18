@@ -85,7 +85,7 @@
         <ul>
             {{if currentUser}} 
                 <li>
-                    <form action="/signout" method="post">
+                    <form action="/sign-out" method="post">
                         <div> 
                             {{csrfField}}
                         </div>   
@@ -96,8 +96,8 @@
                     </form>
                 </li>
             {{else}}
-                <li><span><i class="fa-solid fa-user"></i></span><a href="/signin">SIGN IN</a></li>
-                <li><span><i class="fa-solid fa-plus"></i></span><a href="/signup">SIGN UP</a></li>
+                <li><span><i class="fa-solid fa-user"></i></span><a href="/sign-in">SIGN IN</a></li>
+                <li><span><i class="fa-solid fa-plus"></i></span><a href="/sign-up">SIGN UP</a></li>
             {{end}}
         </ul>
     </div>

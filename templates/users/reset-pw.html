@@ -1,0 +1,46 @@
+{{define "title"}}Reset Your Password{{end}}
+
+{{define "css"}}forms{{end}}
+
+{{define "url"}}/reset-pw{{end}}
+
+{{define "description"}}Reset your password.{{end}}
+
+{{define "meta_title"}}Reset Your Password{{end}}
+
+{{define "meta_image"}}{{end}}
+
+{{define "page"}}
+    <section class="user-form">
+        <section class="form-header">
+            <div><i class="fa-solid fa-camera-retro"></i></div>
+            <section><h1>Reset Your Password</h1></section>
+        </section>
+        <form action="/reset-pw" method="post" class="form">
+            <div>
+                {{csrfField}}
+            </div>
+            <div>
+                <label for="password">New Password</label>
+                <input type="password" name="password" id="password" required autofocus>
+            </div>
+            {{if .Token}}
+                <div>
+                    <input type="hidden" name="token" id="token" value="{{.Token}}">
+                </div>
+            {{else}}
+                <div>
+                    <label for="token">Password Reset Token</label>
+                    <input type="text" name="token" id="token" placeholder="Check your email" required autofocus>
+                </div>
+            {{end}}
+            <div class="margin-top-2">
+                <button aria-label="Signup Form Submit Button" type="submit" class="form-btn">Update Password</button>
+            </div>
+            <div class="form-links">
+                <div><a href="/sign-up">Sign Up</a></div>
+                <div><a href="/sign-in">Reset Your Password</a></div>
+            </div>
+        </form>
+    </section>
+{{end}}
