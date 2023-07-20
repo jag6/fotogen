@@ -122,11 +122,11 @@ func main() {
 	//faq page
 	r.Get("/faq", controllers.FAQ(views.Must(views.ParseFS(templates.FS, "base.html", "pages/faq.html"))))
 
-	//signup page
+	//sign up page
 	r.Get("/sign-up", usersC.New)
 	r.Post("/users", usersC.Create)
 
-	//signin page
+	//sign in page
 	r.Get("/sign-in", usersC.SignIn)
 	r.Post("/sign-in", usersC.ProcessSignIn)
 

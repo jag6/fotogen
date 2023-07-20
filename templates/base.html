@@ -61,6 +61,16 @@
         </div>
     </header>
     <main>
+        {{if errors}}
+            <div class="alert">
+                {{range errors}}
+                    <div class="alert-message">
+                        {{.}}
+                        <span><i class="fa-regular fa-circle-xmark"></i></span>
+                    </div>
+                {{end}}
+            </div>
+        {{end}}
         {{template "page" .}}
     </main>
     <footer>

@@ -6,6 +6,7 @@ import (
 	"net/url"
 
 	"github.com/jag6/fotogen/context"
+	"github.com/jag6/fotogen/errors"
 	"github.com/jag6/fotogen/models"
 )
 
@@ -34,13 +35,23 @@ func (u Users) New(w http.ResponseWriter, r *http.Request) {
 }
 
 func (u Users) Create(w http.ResponseWriter, r *http.Request) {
-	email := r.FormValue("email")
-	username := r.FormValue("username")
-	password := r.FormValue("password")
-	user, err := u.UserService.Create(email, username, password)
+	var data struct {
+		Email    string
+		Username string
+		Password string
+	}
+	data.Email = r.FormValue("email")
+	data.Username = r.FormValue("username")
+	data.Password = r.FormValue("password")
+	user, err := u.UserService.Create(data.Email, data.Username, data.Password)
 	if err != nil {
-		fmt.Println(err)
-		http.Error(w, "Something went wrong", http.StatusInternalServerError)
+		if errors.Is(err, models.ErrEmailTaken) {
+			err = errors.Public(err, "That email address is already associated with an account.")
+		}
+		// if errors.Is(err, models.ErrUsernameTaken) {
+		// 	err = errors.Public(err, "That username is already taken.")
+		// }
+		u.Templates.New.Execute(w, r, data, err)
 		return
 	}
 	session, err := u.SessionService.Create(user.ID)

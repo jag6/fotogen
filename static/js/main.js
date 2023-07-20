@@ -23,8 +23,8 @@ nav_overlay.addEventListener('click', (e) => {
     }
 });
 
-//Animations
-const scrollElements = document.querySelectorAll(".js-scroll");
+//ANIMATIONS
+const scrollElements = document.querySelectorAll('.js-scroll');
 const elementInView = (el, dividend = 1) => {
   const elementTop = el.getBoundingClientRect().top;
   	return (
@@ -39,10 +39,10 @@ const elementOutofView = (el) => {
   	);
 };
 const displayScrollElement = (element) => {
-  	element.classList.add("scrolled");
+  	element.classList.add('scrolled');
 };
 const hideScrollElement = (element) => {
- 	element.classList.remove("scrolled");
+ 	element.classList.remove('scrolled');
 };
 const handleScrollAnimation = () => {
 	scrollElements.forEach((el) => {
@@ -53,6 +53,26 @@ const handleScrollAnimation = () => {
     	}
   	});
 };
-window.addEventListener("scroll", () => { 
+window.addEventListener('scroll', () => { 
 	handleScrollAnimation();
 });
+
+//ALERTS
+document.querySelectorAll('.alert-message').forEach((alert) => {
+	//auto delete
+	setTimeout(() => {
+		alert.remove();
+	}, 5000);
+	//click to delete
+	alert.addEventListener('click', () => {
+		alert.classList.add('fade-out');
+		setTimeout(() => {
+			alert.remove();
+		}, 300);
+	})
+});
+
+//RENDER
+// document.querySelector('.alert').innerHTML = `
+	
+// `;
