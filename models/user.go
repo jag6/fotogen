@@ -11,11 +11,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var (
-	ErrEmailTaken = errors.New("models: email address already in use")
-	//ErrUsernameTaken = errors.New("models: username already in use")
-)
-
 type User struct {
 	ID           int
 	Email        string
@@ -43,7 +38,7 @@ func (us *UserService) Create(email, username, password string) (*User, error) {
 	row := us.DB.QueryRow(`
 		INSERT INTO users (email, username, password_hash)
 		VALUES ($1, $2, $3) RETURNING id`, email, username, passwordHash)
-	err = row.Scan(&user.ID)
+	err = row.Scan(&user.ID) //user.Username
 	if err != nil {
 		var pgError *pgconn.PgError
 		if errors.As(err, &pgError) {

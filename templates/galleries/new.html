@@ -1,0 +1,29 @@
+{{define "title"}}New Gallery{{end}}
+
+{{define "css"}}forms{{end}}
+
+{{define "url"}}/galleries/new{{end}}
+
+{{define "description"}}Create a new gallery.{{end}}
+
+{{define "meta_title"}}FAQ{{end}}
+
+{{define "meta_image"}}{{end}}
+
+{{define "page"}}
+    <section class="gallery-form-header margin-top-2"><h1>Create a New Gallery</h1></section>
+    <section class="user-form gallery-form">
+        <form action="/galleries" method="post" class="form">
+            <div>
+                {{csrfField}}
+            </div>
+            <div>
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" required value="{{.Title}}" autofocus>
+            </div>
+            <div class="margin-top-2">
+                <button aria-label="Create New Gallery Form Submit Button" type="submit" class="form-btn">Create</button>
+            </div>
+        </form>
+    </section>
+{{end}}

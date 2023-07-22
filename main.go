@@ -84,6 +84,9 @@ func main() {
 	pwResetService := &models.PasswordResetService{
 		DB: db,
 	}
+	galleryService := &models.GalleryService{
+		DB: db,
+	}
 	emailService := models.NewEmailService(cfg.SMTP)
 
 	//middleware
@@ -104,6 +107,11 @@ func main() {
 	usersC.Templates.ForgotPassword = views.Must(views.ParseFS(templates.FS, "base.html", "users/forgot-pw.html"))
 	usersC.Templates.CheckYourEmail = views.Must(views.ParseFS(templates.FS, "base.html", "users/check-email.html"))
 	usersC.Templates.ResetPassword = views.Must(views.ParseFS(templates.FS, "base.html", "users/reset-pw.html"))
+
+	galleriesC := controllers.Galleries{
+		GalleryService: galleryService,
+	}
+	galleriesC.Template.New = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/new.html"))
 
 	//router and routes
 	r := chi.NewRouter()
@@ -146,6 +154,9 @@ func main() {
 		r.Use(umw.RequireUser)
 		r.Get("/", usersC.CurrentUser)
 	})
+
+	//new gallery page
+	r.Get("/galleries/new", galleriesC.New)
 
 	//404
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {

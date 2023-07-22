@@ -1,3 +1,5 @@
+/*USER FORM*/
+
 .user-form {
     background-color: #dedede;
     max-width: 500px;
@@ -104,6 +106,27 @@
 }
 
 
+/*GALLERY FORM*/
+
+.gallery-form-header h1 {
+    font-size: 48px;
+    line-height: 72px;
+}
+
+.gallery-form {
+    max-width: 700px;
+    margin: 2rem auto;
+}
+
+.gallery-form .form {
+    margin-top: .5rem;
+}
+
+.gallery-form .form-btn {
+    background-color: #1A88BD;
+}
+
+
 @media only screen and (max-width: 576px) {
     .user-form {
         padding: 1rem 5%;
@@ -121,5 +144,9 @@
 @media only screen and (max-width: 500px) {
     .user-form {
         margin: 4rem 5%;
+    }
+
+    .gallery-form {
+        margin: 2rem 5%;
     }
 }
