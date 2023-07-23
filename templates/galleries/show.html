@@ -1,0 +1,26 @@
+{{define "title"}}Gallery {{.Title}}{{end}}
+
+{{define "css"}}gallery{{end}}
+
+{{define "url"}}/galleries/{{.ID}}{{end}}
+
+{{define "description"}}Please enjoy my gallery: {{.Title}}. {{end}}
+
+{{define "meta_title"}}Gallery {{.Title}}{{end}}
+
+{{define "meta_image"}}{{end}}
+
+{{define "page"}}
+    <section class="page-header">
+        <h1>Gallery: {{.Title}}</h1>
+    </section>
+    <div class="gallery-container">
+        {{range .Images}}
+            <div>
+                <a href="{{.}}">
+                    <img src="{{.}}" alt="">
+                </a>
+            </div>
+        {{end}}
+    </div>
+{{end}}

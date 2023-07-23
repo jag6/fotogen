@@ -93,7 +93,11 @@ func main() {
 	umw := controllers.UserMiddleware{
 		SessionService: sessionService,
 	}
-	csrfMw := csrf.Protect([]byte(cfg.CSRF.Key), csrf.Secure(cfg.CSRF.Secure))
+	csrfMw := csrf.Protect(
+		[]byte(cfg.CSRF.Key),
+		csrf.Secure(cfg.CSRF.Secure),
+		csrf.Path("/"),
+	)
 
 	//controllers
 	usersC := controllers.Users{
@@ -111,7 +115,10 @@ func main() {
 	galleriesC := controllers.Galleries{
 		GalleryService: galleryService,
 	}
-	galleriesC.Template.New = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/new.html"))
+	galleriesC.Templates.Index = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/index.html"))
+	galleriesC.Templates.New = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/new.html"))
+	galleriesC.Templates.Show = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/show.html"))
+	galleriesC.Templates.Edit = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/edit.html"))
 
 	//router and routes
 	r := chi.NewRouter()
@@ -155,8 +162,21 @@ func main() {
 		r.Get("/", usersC.CurrentUser)
 	})
 
-	//new gallery page
-	r.Get("/galleries/new", galleriesC.New)
+	//gallery pages
+	r.Route("/galleries", func(r chi.Router) {
+		r.Get("/{id}", galleriesC.Show)
+		r.Group(func(r chi.Router) {
+			r.Use(umw.RequireUser)
+			//index page
+			r.Get("/", galleriesC.Index)
+			//new page
+			r.Get("/new", galleriesC.New)
+			r.Post("/", galleriesC.Create)
+			//edit page
+			r.Get("/{id}/edit", galleriesC.Edit)
+			r.Post("/{id}", galleriesC.Update)
+		})
+	})
 
 	//404
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {

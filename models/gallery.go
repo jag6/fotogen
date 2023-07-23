@@ -22,7 +22,7 @@ func (gs *GalleryService) Create(title string, userID int) (*Gallery, error) {
 		UserID: userID,
 	}
 	row := gs.DB.QueryRow(`
-		INSERT INTO galleries (title, user_id
+		INSERT INTO galleries (title, user_id)
 		VALUES ($1, $2) RETURNING id;`, gallery.Title, gallery.UserID)
 	err := row.Scan(&gallery.ID)
 	if err != nil {
@@ -39,7 +39,7 @@ func (gs *GalleryService) ByID(id int) (*Gallery, error) {
 		SELECT title, user_id
 		FROM galleries 
 		WHERE id = $1;`, gallery.ID)
-	err := row.Scan(&gallery.ID)
+	err := row.Scan(&gallery.Title, &gallery.UserID)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, ErrNotFound
@@ -62,7 +62,7 @@ func (gs *GalleryService) ByUserID(userID int) ([]Gallery, error) {
 		gallery := Gallery{
 			UserID: userID,
 		}
-		err = rows.Scan(&gallery.ID, gallery.Title)
+		err = rows.Scan(&gallery.ID, &gallery.Title)
 		if err != nil {
 			return nil, fmt.Errorf("query galleries by user: %w", err)
 		}

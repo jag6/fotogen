@@ -1,0 +1,55 @@
+{{define "title"}}My Galleries{{end}}
+
+{{define "css"}}gallery{{end}}
+
+{{define "url"}}/galleries{{end}}
+
+{{define "description"}}An index of all my galleries.{{end}}
+
+{{define "meta_title"}}My Galleries{{end}}
+
+{{define "meta_image"}}{{end}}
+
+{{define "page"}}
+    <section class="page-header">
+        <h1>My Galleries</h1>
+    </section>
+    <div class="galleries-container">
+        <div class="new-gallery-btn">
+            <a href="/gallery/new"><span><i class="fa-regular fa-square-plus"></i></span>New Gallery</a>
+        </div>
+        <table class="galleries-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Galleries}}
+                    <tr>
+                        <td>{{.Title}}</td>
+                        <td>
+                            <div class="gallery-links">
+                                <a href="/galleries/{{.ID}}"><span><i class="fa-regular fa-eye"></i></span>View</a>
+                            </div>
+                            <div class="gallery-links">
+                                <a href="/galleries/{{.ID}}/edit"><span><i class="fa-solid fa-pen-to-square"></i></span>Edit</a>
+                            </div>
+                            <div class="gallery-links">
+                                <form action="/galleries/{{.ID}}/delete" method="post">
+                                    <div>
+                                        {{csrfField}}
+                                    </div>
+                                    <div>
+                                        <button id="delete-gallery-btn" type="submit" aria-label="Delete Gallery Button" title="{{.Title}}"><span><i class="fa-regular fa-trash-can"></i></span>Delete</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+{{end}}

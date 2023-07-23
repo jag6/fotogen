@@ -66,7 +66,7 @@ h1, h2, h3, h4, h5 {
     font-family: 'Quicksand', sans-serif;
     text-align: center;
 }
-div, p, label, input, textarea, li, select, option, button, a {
+div, p, label, input, textarea, li, select, option, button, a, table {
     font-family: 'Quicksand', sans-serif;
 }
 label {

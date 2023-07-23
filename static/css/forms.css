@@ -126,6 +126,22 @@
     background-color: #1A88BD;
 }
 
+.gallery-form-da div {
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-form-da div .delete-btn {
+    background-color: #BDB71A;
+    color: #222;
+}
+
+
+@media only screen and (max-width: 700px) {
+    .gallery-form {
+        margin: 2rem 5%;
+    }
+}
 
 @media only screen and (max-width: 576px) {
     .user-form {
@@ -144,9 +160,5 @@
 @media only screen and (max-width: 500px) {
     .user-form {
         margin: 4rem 5%;
-    }
-
-    .gallery-form {
-        margin: 2rem 5%;
     }
 }

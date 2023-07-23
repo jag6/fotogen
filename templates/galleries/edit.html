@@ -1,0 +1,42 @@
+{{define "title"}}Edit Gallery{{end}}
+
+{{define "css"}}forms{{end}}
+
+{{define "url"}}/galleries/edit{{end}}
+
+{{define "description"}}Edit your gallery.{{end}}
+
+{{define "meta_title"}}Edit Gallery{{end}}
+
+{{define "meta_image"}}{{end}}
+
+{{define "page"}}
+    <section class="gallery-form-header margin-top-2"><h1>Edit Your Gallery</h1></section>
+    <section class="user-form gallery-form">
+        <form action="/galleries/{{.ID}}" method="post" class="form">
+            <div>
+                {{csrfField}}
+            </div>
+            <div>
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" required value="{{.Title}}" autofocus>
+            </div>
+            <div class="margin-top-2">
+                <button aria-label="Edit Gallery Form Submit Button" type="submit" class="form-btn">Update</button>
+            </div>
+        </form>
+        <!-- Dangerous Actions -->
+        <section class="gallery-form-da margin-top-2">
+            <div class="delete-gallery-action">
+                <form action="/galleries/{{.ID}}/delete" method="post">
+                    <div>
+                        {{csrfField}}
+                    </div>
+                    <div>
+                        <button id="delete-gallery-btn" class="form-btn delete-btn" type="submit" aria-label="Delete Gallery Button" title="{{.Title}}">DELETE!!!</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </section>
+{{end}}
