@@ -5,7 +5,9 @@ cmd
 
 models/postgres.go
 
+media/
+
 docker-compose.yml
 
 notes.txt
-test.html
+to-do.txt

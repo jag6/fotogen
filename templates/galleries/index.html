@@ -4,7 +4,7 @@
 
 {{define "url"}}/galleries{{end}}
 
-{{define "description"}}An index of all my galleries.{{end}}
+{{define "description"}}An index of all your galleries.{{end}}
 
 {{define "meta_title"}}My Galleries{{end}}
 
@@ -12,11 +12,11 @@
 
 {{define "page"}}
     <section class="page-header">
-        <h1>My Galleries</h1>
+        <h1>{{currentUser.Username}}'s Galleries</h1>
     </section>
     <div class="galleries-container">
         <div class="new-gallery-btn">
-            <a href="/gallery/new"><span><i class="fa-regular fa-square-plus"></i></span>New Gallery</a>
+            <a href="/galleries/new"><span><i class="fa-regular fa-square-plus"></i></span>New Gallery</a>
         </div>
         <table class="galleries-table">
             <thead>
@@ -42,7 +42,7 @@
                                         {{csrfField}}
                                     </div>
                                     <div>
-                                        <button id="delete-gallery-btn" type="submit" aria-label="Delete Gallery Button" title="{{.Title}}"><span><i class="fa-regular fa-trash-can"></i></span>Delete</button>
+                                        <button class="delete-gallery-btn" type="submit" aria-label="Delete Gallery Button" title="{{.Title}}"><span><i class="fa-regular fa-trash-can"></i></span>Delete</button>
                                     </div>
                                 </form>
                             </div>

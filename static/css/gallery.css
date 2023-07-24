@@ -102,6 +102,7 @@
 
 .galleries-table td:nth-child(1) {
     padding-left: 2%;
+    border-right: 2px solid #aaa;
 }
 
 .galleries-table td:nth-child(2) {

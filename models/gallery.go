@@ -4,6 +4,10 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"io/fs"
+	"os"
+	"path/filepath"
+	"strings"
 )
 
 type Gallery struct {
@@ -12,8 +16,18 @@ type Gallery struct {
 	Title  string
 }
 
+type Image struct {
+	GalleryID int
+	Path      string
+	Filename  string
+}
+
 type GalleryService struct {
 	DB *sql.DB
+
+	// ImagesDir is used to tell the GalleryService where to store and locate images.
+	// If not set, the GalleryService will default to using the "media" directory.
+	ImagesDir string
 }
 
 func (gs *GalleryService) Create(title string, userID int) (*Gallery, error) {
@@ -93,4 +107,62 @@ func (gs *GalleryService) Delete(id int) error {
 		return fmt.Errorf("delete gallery by id: %w", err)
 	}
 	return nil
+}
+
+func (gs *GalleryService) Images(galleryID int) ([]Image, error) {
+	globPattern := filepath.Join(gs.galleryDir(galleryID), "*")
+	allFiles, err := filepath.Glob(globPattern)
+	if err != nil {
+		return nil, fmt.Errorf("retrieving gallery images: %w", err)
+	}
+	var images []Image
+	for _, file := range allFiles {
+		if hasExtension(file, gs.extensions()) {
+			images = append(images, Image{
+				GalleryID: galleryID,
+				Path:      file,
+				Filename:  filepath.Base(file),
+			})
+		}
+	}
+	return images, nil
+}
+
+func (gs *GalleryService) Image(galleryID int, filename string) (Image, error) {
+	imagePath := filepath.Join(gs.galleryDir(galleryID), filename)
+	_, err := os.Stat(imagePath)
+	if err != nil {
+		if errors.Is(err, fs.ErrNotExist) {
+			return Image{}, ErrNotFound
+		}
+		return Image{}, fmt.Errorf("querying for image: %w", err)
+	}
+	return Image{
+		Filename:  filename,
+		GalleryID: galleryID,
+		Path:      imagePath,
+	}, nil
+}
+
+func (gs *GalleryService) extensions() []string {
+	return []string{".png", ".jpg", ".jpeg", ".gif", ".webp"}
+}
+
+func (gs *GalleryService) galleryDir(id int) string {
+	imagesDir := gs.ImagesDir
+	if imagesDir == "" {
+		imagesDir = "media"
+	}
+	return filepath.Join(imagesDir, fmt.Sprintf("gallery-%d", id))
+}
+
+func hasExtension(file string, extensions []string) bool {
+	for _, ext := range extensions {
+		file = strings.ToLower(file)
+		ext = strings.ToLower(ext)
+		if filepath.Ext(file) == ext {
+			return true
+		}
+	}
+	return false
 }

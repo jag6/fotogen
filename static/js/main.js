@@ -73,12 +73,14 @@ document.querySelectorAll('.alert-message').forEach((alert) => {
 });
 
 //GALLERY
-if(document.getElementById('delete-gallery-btn')) {
-	document.getElementById('delete-gallery-btn').addEventListener('click', (e) => {
-		const title = e.target.getAttribute('title');
-			if(!confirm('Do you want to delete: ' + title)) {
-				e.preventDefault();
-			}
+if(document.querySelector('.delete-gallery-btn')) {
+	document.querySelectorAll('.delete-gallery-btn').forEach((btn) => {
+		btn.addEventListener('click', (e) => {
+			const title = e.target.getAttribute('title');
+				if(!confirm('Do you want to delete: ' + title)) {
+					e.preventDefault();
+				}
+		});
 	});
 }
 
