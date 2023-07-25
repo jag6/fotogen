@@ -227,3 +227,14 @@ func (umw UserMiddleware) RequireUser(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+
+func (umw UserMiddleware) RedirectIfSignedIn(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		user := context.User(r.Context())
+		if user != nil {
+			http.Redirect(w, r, "/galleries", http.StatusFound)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}

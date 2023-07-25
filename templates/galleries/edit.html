@@ -11,9 +11,9 @@
 {{define "meta_image"}}{{end}}
 
 {{define "page"}}
-    <section class="gallery-form-header margin-top-2"><h1>Edit Your Gallery</h1></section>
-    <section class="user-form gallery-form">
-        <form action="/galleries/{{.ID}}" method="post" class="form">
+    <section class="gallery-form-header"><h1>Edit Your Gallery</h1></section>
+    <section class="edit-gallery-container">
+        <form class="edit-gallery-form" action="/galleries/{{.ID}}" method="post" class="form">
             <div>
                 {{csrfField}}
             </div>
@@ -21,11 +21,33 @@
                 <label for="title">Title</label>
                 <input type="text" name="title" id="title" required value="{{.Title}}" autofocus>
             </div>
-            <div class="margin-top-2">
+            <div class="margin-top-1">
                 <button aria-label="Edit Gallery Form Submit Button" type="submit" class="form-btn">Update</button>
             </div>
         </form>
-        <!-- Dangerous Actions -->
+        <section class="margin-top-3">
+            <section class="margin-btm-1"><h2>Current Images</h2></section>
+            <div class="images-container">
+                {{range .Images}}
+                    <div class="image-with-delete-form">
+                        <div class="delete-image-form">
+                            <form action="/galleries/{{.GalleryID}}/media/{{.FilenameEscaped}}/delete" method="post">
+                                <div>
+                                    {{csrfField}}
+                                </div>
+                                <div>
+                                    <button type="submit" aria-label="Delete Image Form Button" class="delete-gallery-btn">
+                                        <i class="fa-regular fa-circle-xmark"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <img src="/galleries/{{.GalleryID}}/media/{{.FilenameEscaped}}" alt="">
+                    </div>
+                {{end}}
+            </div>
+        </section>
+        <!-- Delete Gallery Button -->
         <section class="gallery-form-da margin-top-2">
             <div class="delete-gallery-action">
                 <form action="/galleries/{{.ID}}/delete" method="post">

@@ -72,7 +72,7 @@
     transition: .3s;
 }
 
-.form input:focus {
+.form input:focus, .edit-gallery-form input:focus {
     outline: none !important;
     border: 2px solid #007018;
 }
@@ -106,39 +106,102 @@
 }
 
 
-/*GALLERY FORM*/
+/*NEW GALLERY*/
+
+.gallery-form-header {
+    margin-top: 2rem;
+}
 
 .gallery-form-header h1 {
     font-size: 48px;
     line-height: 72px;
 }
 
-.gallery-form {
+.new-gallery-form {
+    margin-top: 2rem;
     max-width: 700px;
-    margin: 2rem auto;
 }
 
-.gallery-form .form {
-    margin-top: .5rem;
+
+/*EDIT GALLERY*/
+
+.edit-gallery-container {
+    margin: 0 5%;
+    margin-bottom: 4rem;
 }
 
-.gallery-form .form-btn {
-    background-color: #1A88BD;
+.edit-gallery-form {
+    margin-top: 2rem;
 }
 
-.gallery-form-da div {
+.edit-gallery-form div {
     display: flex;
     flex-direction: column;
 }
 
-.gallery-form-da div .delete-btn {
+.edit-gallery-form input {
+    border: 2px solid #333;
+}
+
+.edit-gallery-container .form-btn {
+    background-color: #1A88BD;
+}
+
+.edit-gallery-container h2 {
+    font-size: 32px;
+    line-height: 64px;
+    text-align: left;
+}
+
+.images-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+    gap: 1rem;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+.image-with-delete-form {
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.delete-image-form {
+    position: absolute;
+    right: 0;
+}
+
+.delete-image-form button {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.5);  
+}
+
+.delete-image-form button:hover {
+    opacity: .5;
+    cursor: pointer;
+    transition: .05s ease-in-out;
+}
+
+.delete-image-form button i {
+    font-size: 32px;
+    line-height: 48px;
+    color: #BDB71A;
+}
+
+.images-container div img {
+    width: 100%;
+    max-width: 576px;
+}
+
+.edit-gallery-container div .delete-btn {
+    width: 100%;
     background-color: #BDB71A;
     color: #222;
 }
 
 
 @media only screen and (max-width: 700px) {
-    .gallery-form {
+    .new-gallery-form {
         margin: 2rem 5%;
     }
 }

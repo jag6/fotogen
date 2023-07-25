@@ -17,8 +17,8 @@
     <div class="gallery-container">
         {{range .Images}}
             <div>
-                <a href="/galleries/{{.GalleryID}}/media/{{.Filename}}">
-                    <img src="/galleries/{{.GalleryID}}/media/{{.Filename}}" alt="">
+                <a href="/galleries/{{.GalleryID}}/media/{{.FilenameEscaped}}">
+                    <img src="/galleries/{{.GalleryID}}/media/{{.FilenameEscaped}}" alt="">
                 </a>
             </div>
         {{end}}

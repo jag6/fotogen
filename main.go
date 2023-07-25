@@ -137,23 +137,28 @@ func main() {
 	//faq page
 	r.Get("/faq", controllers.FAQ(views.Must(views.ParseFS(templates.FS, "base.html", "pages/faq.html"))))
 
+	//user form pages
+	r.Group(func(r chi.Router) {
+		r.Use(umw.RedirectIfSignedIn)
+		r.Get("/sign-up", usersC.New)
+		r.Get("/sign-in", usersC.SignIn)
+		r.Get("/forgot-pw", usersC.ForgotPassword)
+		r.Get("/reset-pw", usersC.ResetPassword)
+	})
+
 	//sign up page
-	r.Get("/sign-up", usersC.New)
 	r.Post("/users", usersC.Create)
 
 	//sign in page
-	r.Get("/sign-in", usersC.SignIn)
 	r.Post("/sign-in", usersC.ProcessSignIn)
 
 	//logout
 	r.Post("/sign-out", usersC.SignOut)
 
 	//forgot pw page
-	r.Get("/forgot-pw", usersC.ForgotPassword)
 	r.Post("/forgot-pw", usersC.ProcessForgotPassword)
 
 	//reset pw page
-	r.Get("/reset-pw", usersC.ResetPassword)
 	r.Post("/reset-pw", usersC.ProcessResetPassword)
 
 	//user page
@@ -176,8 +181,9 @@ func main() {
 			//edit page
 			r.Get("/{id}/edit", galleriesC.Edit)
 			r.Post("/{id}", galleriesC.Update)
-			//delete
+			//delete gallery, image
 			r.Post("/{id}/delete", galleriesC.Delete)
+			r.Post("/{id}/media/{filename}/delete", galleriesC.DeleteImage)
 		})
 	})
 
