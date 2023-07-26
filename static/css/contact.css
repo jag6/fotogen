@@ -10,30 +10,11 @@
     justify-content: space-around;
     align-items: center;
 }
-
-.contact-info div img {
-    width: 100%;
-    max-width: 500px;
-}
-
-.contact-info div p {
-    font-size: 20px;
-    line-height: 40px;
-    font-weight: 500;
-}
-
-.contact-info div a {
-    color: #A30719;
-    font-weight: 700;
-}
+.contact-info div img { width: 100%; max-width: 500px; }
+.contact-info div p { font-size: 20px; line-height: 40px; font-weight: 500; }
+.contact-info div a { color: #A30719; font-weight: 700; }
 
 @media only screen and (max-width: 1200px) {
-    .contact-info {
-        margin: 0 5%;
-        margin-bottom: 4rem;
-    }
-
-    .contact-info div:nth-child(2) {
-        margin-top: 2rem;
-    }
+    .contact-info { margin: 0 5%; margin-bottom: 4rem; }
+    .contact-info div:nth-child(2) { margin-top: 2rem; }
 }

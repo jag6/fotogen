@@ -13,23 +13,46 @@
 {{define "page"}}
     <section class="gallery-form-header"><h1>Edit Your Gallery</h1></section>
     <section class="edit-gallery-container">
-        <form class="edit-gallery-form" action="/galleries/{{.ID}}" method="post" class="form">
-            <div>
-                {{csrfField}}
+        <!-- Change Gallery Title -->
+        <section>
+            <form class="edit-gallery-form" action="/galleries/{{.ID}}" method="post" class="form">
+                <div>
+                    {{csrfField}}
+                </div>
+                <div>
+                    <label for="title">Change Title</label>
+                    <input type="text" name="title" id="title" required value="{{.Title}}" autofocus>
+                </div>
+                <div class="margin-top-1">
+                    <button aria-label="Edit Gallery Form Submit Button" type="submit" class="form-btn">Update</button>
+                </div>
+            </form>
+        </section>
+        <!-- Upload Image -->
+        <section>
+            <div class="upload-image-form margin-top-4">
+                <form action="/galleries/{{.ID}}/images" method="post" enctype="multipart/form-data">
+                    <div>
+                        {{csrfField}}
+                    </div>
+                    <div>
+                        <label for="images">Add Images</label>
+                        <p>Please only upload jpg, png, gif, or webp files</p>
+                        <input type="file" name="images" id="images" multiple accept="image/png, image/jpeg, image/gif, image/webp">
+                    </div>
+                    <div class="margin-top-1">
+                        <button aria-label="Upload Image Form Submit Button" type="submit" class="form-btn">Upload</button>
+                    </div>
+                </form>
             </div>
-            <div>
-                <label for="title">Title</label>
-                <input type="text" name="title" id="title" required value="{{.Title}}" autofocus>
-            </div>
-            <div class="margin-top-1">
-                <button aria-label="Edit Gallery Form Submit Button" type="submit" class="form-btn">Update</button>
-            </div>
-        </form>
+        </section>
+        <!-- Show Current Images -->
         <section class="margin-top-3">
             <section class="margin-btm-1"><h2>Current Images</h2></section>
             <div class="images-container">
                 {{range .Images}}
                     <div class="image-with-delete-form">
+                        <!-- Delete Images -->
                         <div class="delete-image-form">
                             <form action="/galleries/{{.GalleryID}}/media/{{.FilenameEscaped}}/delete" method="post">
                                 <div>

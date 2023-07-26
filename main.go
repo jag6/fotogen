@@ -181,6 +181,8 @@ func main() {
 			//edit page
 			r.Get("/{id}/edit", galleriesC.Edit)
 			r.Post("/{id}", galleriesC.Update)
+			//upload image
+			r.Post("/{id}/images", galleriesC.UploadImage)
 			//delete gallery, image
 			r.Post("/{id}/delete", galleriesC.Delete)
 			r.Post("/{id}/media/{filename}/delete", galleriesC.DeleteImage)
