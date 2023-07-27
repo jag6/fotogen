@@ -107,6 +107,10 @@ func (gs *GalleryService) Delete(id int) error {
 	if err != nil {
 		return fmt.Errorf("delete gallery by id: %w", err)
 	}
+	err = os.RemoveAll(gs.galleryDir(id))
+	if err != nil {
+		return fmt.Errorf("delete gallery images: %w", err)
+	}
 	return nil
 }
 
@@ -145,9 +149,18 @@ func (gs *GalleryService) Image(galleryID int, filename string) (Image, error) {
 	}, nil
 }
 
-func (gs *GalleryService) CreateImage(galleryID int, filename string, contents io.Reader) error {
+func (gs *GalleryService) CreateImage(galleryID int, filename string, contents io.ReadSeeker) error {
+	err := checkContentType(contents, gs.imageContentTypes())
+	if err != nil {
+		return fmt.Errorf("creating image %v: %w", filename, err)
+	}
+	err = checkExtension(filename, gs.extensions())
+	if err != nil {
+		return fmt.Errorf("creating image %v: %w", filename, err)
+	}
+
 	galleryDir := gs.galleryDir(galleryID)
-	err := os.MkdirAll(galleryDir, 0755)
+	err = os.MkdirAll(galleryDir, 0755)
 	if err != nil {
 		return fmt.Errorf("creating gallery-%d images directory: %w", galleryID, err)
 	}
@@ -174,6 +187,10 @@ func (gs *GalleryService) DeleteImage(galleryID int, filename string) error {
 		return fmt.Errorf("deleting image: %w", err)
 	}
 	return nil
+}
+
+func (gs *GalleryService) imageContentTypes() []string {
+	return []string{"image/png", "image/jpg", "image/jpeg", "image/gif", "image/webp"}
 }
 
 func (gs *GalleryService) extensions() []string {
