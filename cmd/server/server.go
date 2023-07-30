@@ -35,7 +35,17 @@ func loadEnvConfig() (config, error) {
 		return cfg, err
 	}
 	//psql
-	cfg.PSQL = models.DefaultPostgresConfig()
+	cfg.PSQL = models.PostgresConfig{
+		Host:     os.Getenv("PSQL_HOST"),
+		Port:     os.Getenv("PSQL_PORT"),
+		User:     os.Getenv("PSQL_USER"),
+		Password: os.Getenv("PSQL_PASSWORD"),
+		DBName:   os.Getenv("PSQL_DBNAME"),
+		SSLMode:  os.Getenv("PSQL_SSLMODE"),
+	}
+	if cfg.PSQL.Host == "" && cfg.PSQL.Port == "" {
+		return cfg, fmt.Errorf("no PSQL config provided")
+	}
 
 	//smtp
 	cfg.SMTP.Host = os.Getenv("SMTP_HOST")
@@ -49,7 +59,7 @@ func loadEnvConfig() (config, error) {
 
 	//csrf
 	cfg.CSRF.Key = os.Getenv("CSRF_KEY")
-	cfg.CSRF.Secure = false
+	cfg.CSRF.Secure = os.Getenv("CSRF_SECURE") == "true"
 
 	//server
 	cfg.Server.Address = os.Getenv("SERVER_ADDRESS")
@@ -61,17 +71,23 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	err = run(cfg)
+	if err != nil {
+		panic(err)
+	}
+}
 
+func run(cfg config) error {
 	//database
 	db, err := models.Open(cfg.PSQL)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer db.Close()
 
 	err = models.MigrateFS(db, migrations.FS, ".")
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	//services
@@ -126,7 +142,8 @@ func main() {
 	r.Use(umw.SetUser)
 
 	//static files
-	r.Handle("/static/*", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
+	staticHandler := http.FileServer(http.Dir("static"))
+	r.Get("/static/*", http.StripPrefix("/static", staticHandler).ServeHTTP)
 
 	//homepage
 	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "base.html", "pages/home.html"))))
@@ -161,12 +178,6 @@ func main() {
 	//reset pw page
 	r.Post("/reset-pw", usersC.ProcessResetPassword)
 
-	//user page
-	r.Route("/users/me", func(r chi.Router) {
-		r.Use(umw.RequireUser)
-		r.Get("/", usersC.CurrentUser)
-	})
-
 	//gallery pages
 	r.Route("/galleries", func(r chi.Router) {
 		r.Get("/{id}", galleriesC.Show)
@@ -196,8 +207,5 @@ func main() {
 
 	//start server
 	fmt.Println("server running on " + "http://localhost" + cfg.Server.Address)
-	err = http.ListenAndServe(cfg.Server.Address, r)
-	if err != nil {
-		panic(err)
-	}
+	return http.ListenAndServe(cfg.Server.Address, r)
 }

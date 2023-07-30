@@ -1,13 +1,11 @@
 .env
 
 fotogen
-cmd
 
-models/postgres.go
+cmd/exp
+cmd/bcrypt
 
 media/
-
-docker-compose.yml
 
 notes.txt
 to-do.txt
