@@ -6,6 +6,6 @@ services:
     image: postgres # The postgres image will be used
     restart: always # Always try to restart if this stops running
     environment: # Provide environment variables
-      POSTGRES_USER: ${PSQL_USER} # POSTGRES_USER env var w/ value jag6
+      POSTGRES_USER: ${PSQL_USER} 
       POSTGRES_PASSWORD: ${PSQL_PASSWORD}
       POSTGRES_DBNAME: ${PSQL_DBNAME}
