@@ -33,10 +33,7 @@
 .form { margin-top: 2rem; }
 .form div { display: flex; flex-direction: column; }
 
-.form input:focus, .edit-gallery-form input:focus {
-    outline: none !important;
-    border: 2px solid #007018;
-}
+.form input:focus, .edit-gallery-form input:focus { outline: 2px solid #007018; }
 
 .form-btn {
     font-size: 20px;
@@ -46,7 +43,6 @@
     border-radius: 10px;
     color: #fff;
 }
-
 .form-btn:hover { opacity: .8; transition: .3s; }
 
 .form-links {
@@ -79,7 +75,13 @@
 
 /*EDIT GALLERY*/
 
-.edit-gallery-container { margin: 0 5%; margin-bottom: 4rem; }
+.edit-gallery-container { 
+    display: flex; flex-direction: column;
+    justify-content: center;
+    max-width: 1200px;
+    padding: 0 5%; 
+    margin: 0 auto; margin-bottom: 4rem; 
+}
 .edit-gallery-form { margin-top: 2rem; }
 .edit-gallery-container label { font-size: 32px; line-height: 64px; }
 .edit-gallery-form div { display: flex; flex-direction: column; }

@@ -15,12 +15,24 @@
         <h1>{{.Title}}</h1>
     </section>
     <div class="gallery-container">
-        {{range .Images}}
-            <div>
-                <a href="/galleries/{{.GalleryID}}/media/{{.FilenameEscaped}}">
+        <ul id="gallery-images" class="gallery-images">
+            {{range .Images}}
+                <li class="gallery-img">
                     <img src="/galleries/{{.GalleryID}}/media/{{.FilenameEscaped}}" alt="">
-                </a>
-            </div>
-        {{end}}
+                </li>
+            {{end}}
+        </ul>
+        <div id="gallery-modal" class="gallery-modal">
+            <span id="close-modal" class="close-modal"><i class="fa-regular fa-circle-xmark"></i></span>
+            <ul id="modal-images" class="modal-images">
+                {{range .Images}}
+                    <li class="modal-img">
+                        <img src="/galleries/{{.GalleryID}}/media/{{.FilenameEscaped}}" alt="">
+                    </li>
+                {{end}}
+            </ul>
+            <span id="prev-modal" class="prev-modal"><i class="fa-solid fa-angle-left"></i></span>
+            <span id="next-modal" class="next-modal"><i class="fa-solid fa-angle-right"></i></span>
+        </div>
     </div>
 {{end}}

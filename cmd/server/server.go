@@ -127,6 +127,7 @@ func run(cfg config) error {
 	usersC.Templates.ForgotPassword = views.Must(views.ParseFS(templates.FS, "base.html", "users/forgot-pw.html"))
 	usersC.Templates.CheckYourEmail = views.Must(views.ParseFS(templates.FS, "base.html", "users/check-email.html"))
 	usersC.Templates.ResetPassword = views.Must(views.ParseFS(templates.FS, "base.html", "users/reset-pw.html"))
+	usersC.Templates.Search = views.Must(views.ParseFS(templates.FS, "base.html", "users/search.html"))
 
 	galleriesC := controllers.Galleries{
 		GalleryService: galleryService,
@@ -177,6 +178,9 @@ func run(cfg config) error {
 
 	//reset pw page
 	r.Post("/reset-pw", usersC.ProcessResetPassword)
+
+	//search users
+	r.Get("/search", usersC.Search)
 
 	//gallery pages
 	r.Route("/galleries", func(r chi.Router) {

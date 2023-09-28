@@ -17,6 +17,7 @@ type Users struct {
 		ForgotPassword Template
 		CheckYourEmail Template
 		ResetPassword  Template
+		Search         Template
 	}
 	UserService          *models.UserService
 	SessionService       *models.SessionService
@@ -237,4 +238,28 @@ func (umw UserMiddleware) RedirectIfSignedIn(next http.Handler) http.Handler {
 		}
 		next.ServeHTTP(w, r)
 	})
+}
+
+func (u Users) Search(w http.ResponseWriter, r *http.Request) {
+	type User struct {
+		ID       int
+		Username string
+	}
+	var data struct {
+		Users []User
+	}
+	q := r.URL.Query().Get("q")
+	users, err := u.UserService.SearchByUsername(q)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Something went wrong", http.StatusInternalServerError)
+		return
+	}
+	for _, user := range users {
+		data.Users = append(data.Users, User{
+			ID:       user.ID,
+			Username: user.Username,
+		})
+	}
+	u.Templates.Search.Execute(w, r, data)
 }

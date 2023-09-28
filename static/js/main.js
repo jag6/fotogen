@@ -23,39 +23,52 @@ nav_overlay.addEventListener('click', (e) => {
     }
 });
 
+
 //ANIMATIONS
 const scrollElements = document.querySelectorAll('.js-scroll');
+var throttleTimer;
+const throttle = (callback, time) => {
+    if (throttleTimer) return;
+    throttleTimer = true;
+    setTimeout(() => {
+        callback();
+        throttleTimer = false;
+        }, time
+    );
+}
 const elementInView = (el, dividend = 1) => {
-  const elementTop = el.getBoundingClientRect().top;
-  	return (
-    	elementTop <=
-    	(window.innerHeight || document.documentElement.clientHeight) / dividend
+const elementTop = el.getBoundingClientRect().top;
+	return (
+    	elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
 	);
 };
 const elementOutofView = (el) => {
-  	const elementTop = el.getBoundingClientRect().top;
-  	return (
+	const elementTop = el.getBoundingClientRect().top;
+	return (
     	elementTop > (window.innerHeight || document.documentElement.clientHeight)
-  	);
+  );
 };
 const displayScrollElement = (element) => {
   	element.classList.add('scrolled');
 };
 const hideScrollElement = (element) => {
- 	element.classList.remove('scrolled');
+  	element.classList.remove('scrolled');
 };
 const handleScrollAnimation = () => {
-	scrollElements.forEach((el) => {
+  	scrollElements.forEach((el) => {
     	if (elementInView(el, 1.25)) {
       	displayScrollElement(el);
-    	} else if (elementOutofView(el)) {
+    	}else if (elementOutofView(el)) {
       	hideScrollElement(el)
-    	}
-  	});
+    }
+  })
 };
-window.addEventListener('scroll', () => { 
-	handleScrollAnimation();
+window.addEventListener("scroll", () => { 
+    throttle(() => {
+        handleScrollAnimation();
+    }, 250);
 });
+
 
 //ALERTS
 document.querySelectorAll('.alert-message').forEach((alert) => {
@@ -72,7 +85,10 @@ document.querySelectorAll('.alert-message').forEach((alert) => {
 	});
 });
 
+
 //GALLERY
+
+//delete gallery
 if(document.querySelector('.delete-gallery-btn')) {
 	document.querySelectorAll('.delete-gallery-btn').forEach((btn) => {
 		btn.addEventListener('click', (e) => {
@@ -90,6 +106,53 @@ if(document.querySelector('.delete-gallery-btn')) {
 		});
 	});
 }
+
+//gallery modal
+const galleryModal = document.getElementById('gallery-modal');
+
+//open modal
+const galleryImages = document.querySelectorAll('.gallery-img');
+galleryImages.forEach((image) => {
+    image.addEventListener('click', (n) => {
+        galleryModal.style.display = 'flex';
+        document.querySelector('body').style.overflow = 'hidden';
+
+        //view clicked image
+        const index = [...image.parentElement.children].indexOf(image);
+        n = index + 1;
+        showImages(imageIndex = n);
+    });
+});
+
+//close modal
+document.getElementById('close-modal').addEventListener('click', () => {
+    galleryModal.style.display = 'none';
+    document.querySelector('body').style.overflow = 'auto';
+});
+
+//cycle through modal
+const showImages = (n) => {
+    let images = document.querySelectorAll('.modal-img');
+    if(n > images.length) { imageIndex = 1 }
+    if(n < 1) { imageIndex = images.length }
+    images.forEach((image) => {
+        image.style.display = 'none';
+    }); 
+    images[imageIndex - 1].style.display = 'flex';
+};
+
+let imageIndex = 1;
+showImages(imageIndex);
+
+document.getElementById('next-modal').addEventListener('click', (n) => {
+    n = 1;
+    showImages(imageIndex += n);
+});
+document.getElementById('prev-modal').addEventListener('click', (n) => {
+    n =-1;
+    showImages(imageIndex += n)
+});
+
 
 //RENDER
 // document.querySelector('.alert').innerHTML = `

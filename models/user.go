@@ -85,3 +85,28 @@ func (us *UserService) UpdatePassword(userID int, password string) error {
 	}
 	return nil
 }
+
+func (us *UserService) SearchByUsername(q string) ([]User, error) {
+	rows, err := us.DB.Query(`
+		SELECT id, username 
+		FROM users
+		WHERE username = $1;`, q)
+	if err != nil {
+		return nil, fmt.Errorf("query users by username: %w", err)
+	}
+	var users []User
+	for rows.Next() {
+		user := User{
+			Username: q,
+		}
+		err = rows.Scan(&user.ID, &user.Username)
+		if err != nil {
+			return nil, fmt.Errorf("query users by username: %w", err)
+		}
+		users = append(users, user)
+	}
+	if rows.Err() != nil {
+		return nil, fmt.Errorf("query users by username: %w", err)
+	}
+	return users, nil
+}

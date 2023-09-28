@@ -1,0 +1,26 @@
+{{define "title"}}Search Users{{end}}
+
+{{define "css"}}forms{{end}}
+
+{{define "url"}}/search{{end}}
+
+{{define "description"}}Search for a user and view their galleries.{{end}}
+
+{{define "meta_title"}}Search Users{{end}}
+
+{{define "meta_image"}}{{end}}
+
+{{define "page"}}
+    <section class="page-header"><h1>SEARCH</h1></section>
+    <div class="users-container">
+        {{if not .Users}}
+            <p>No Users Found</p>
+        {{else}}
+            <ul>
+                {{range .Users}}
+                    <li><a href="/user/{{.ID}}"><span><i class="fa-solid fa-user"></i></span>{{.Username}}</a></li>
+                {{end}}
+            </ul>
+        {{end}}
+    </div>
+{{end}}

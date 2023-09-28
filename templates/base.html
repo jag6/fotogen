@@ -58,6 +58,9 @@
                 {{template "links" .}}
             </nav>
         </div>
+        <div class="search-m">
+            {{template "search-bar" .}}
+        </div>
     </header>
     <main>
         {{if errors}}
@@ -76,21 +79,19 @@
         <div>
             <p>Fotogen 2023&copy;</p>
         </div>
+        <nav class="nav">
+            {{template "page-links" .}}
+        </nav>
     </footer>
 </body>
 </html>
 
 {{define "links"}}
-    <div class="links">
-        <div>
-            <ul>
-                <li><a href="/">HOME</a></li>
-                <li><a href="/contact">CONTACT</a></li>
-                <li><a href="/faq">FAQ</a></li>
-            </ul>
-        </div>
+    {{template "page-links" .}}
+    <div class="search">
+        {{template "search-bar" .}}
     </div>
-    <div class="user-links">
+    <div class="user-links {{if currentUser}}ul-user{{else}}ul-guest{{end}}">
         <ul>
             {{if currentUser}} 
                 <li><span><i class="fa-regular fa-images"></i></span><a href="/galleries">MY GALLERIES</a></li>
@@ -109,6 +110,23 @@
                 <li><span><i class="fa-solid fa-user"></i></span><a href="/sign-in">SIGN IN</a></li>
                 <li><span><i class="fa-solid fa-plus"></i></span><a href="/sign-up">SIGN UP</a></li>
             {{end}}
+        </ul>
+    </div>
+{{end}}
+
+{{define "search-bar"}}
+    <form action="/search" class="search-form">
+        <input type="text" name="q" placeholder="Search...">
+        <button type="submit" aria-label="Search Button"><i class="fa fa-search"></i></button>
+    </form>
+{{end}}
+
+{{define "page-links"}}
+    <div class="page-links">
+        <ul>
+            <li><a href="/">HOME</a></li>
+            <li><a href="/contact">CONTACT</a></li>
+            <li><a href="/faq">FAQ</a></li>
         </ul>
     </div>
 {{end}}
