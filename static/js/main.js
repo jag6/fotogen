@@ -86,9 +86,7 @@ document.querySelectorAll('.alert-message').forEach((alert) => {
 });
 
 
-//GALLERY
-
-//delete gallery
+//DELETE GALLERY
 if(document.querySelector('.delete-gallery-btn')) {
 	document.querySelectorAll('.delete-gallery-btn').forEach((btn) => {
 		btn.addEventListener('click', (e) => {
@@ -107,54 +105,97 @@ if(document.querySelector('.delete-gallery-btn')) {
 	});
 }
 
-//gallery modal
+//SHOW GALLERY 
 const galleryModal = document.getElementById('gallery-modal');
+if (galleryModal) {
+    //open modal
+    const galleryImages = document.querySelectorAll('.gallery-img');
+    galleryImages.forEach((image) => {
+        image.addEventListener('click', (n) => {
+            galleryModal.style.display = 'flex';
+            document.querySelector('body').style.overflow = 'hidden';
 
-//open modal
-const galleryImages = document.querySelectorAll('.gallery-img');
-galleryImages.forEach((image) => {
-    image.addEventListener('click', (n) => {
-        galleryModal.style.display = 'flex';
-        document.querySelector('body').style.overflow = 'hidden';
-
-        //view clicked image
-        const index = [...image.parentElement.children].indexOf(image);
-        n = index + 1;
-        showImages(imageIndex = n);
+            //view clicked image
+            const index = [...image.parentElement.children].indexOf(image);
+            n = index + 1;
+            showImages(imageIndex = n);
+        });
     });
-});
 
-//close modal
-document.getElementById('close-modal').addEventListener('click', () => {
-    galleryModal.style.display = 'none';
-    document.querySelector('body').style.overflow = 'auto';
-});
+    //close modal
+    document.getElementById('close-modal').addEventListener('click', () => {
+        galleryModal.style.display = 'none';
+        document.querySelector('body').style.overflow = 'auto';
+    });
 
-//cycle through modal
-const showImages = (n) => {
-    let images = document.querySelectorAll('.modal-img');
-    if(n > images.length) { imageIndex = 1 }
-    if(n < 1) { imageIndex = images.length }
-    images.forEach((image) => {
-        image.style.display = 'none';
-    }); 
-    images[imageIndex - 1].style.display = 'flex';
+    //cycle through modal
+    const showImages = (n) => {
+        let images = document.querySelectorAll('.modal-img');
+        if(n > images.length) { imageIndex = 1 }
+        if(n < 1) { imageIndex = images.length }
+        images.forEach((image) => {
+            image.style.display = 'none';
+        }); 
+        images[imageIndex - 1].style.display = 'flex';
+    };
+
+    let imageIndex = 1;
+    showImages(imageIndex);
+
+    document.getElementById('next-modal').addEventListener('click', (n) => {
+        n = 1;
+        showImages(imageIndex += n);
+    });
+    document.getElementById('prev-modal').addEventListener('click', (n) => {
+        n =-1;
+        showImages(imageIndex += n)
+    });
+}
+
+
+//HOME
+const changeHomeText = document.getElementById('home-header');
+const splitScreenBackground = document.getElementById('split-screen');
+
+const shuffleColors = (array) => {
+    let currentIndex = array.length;
+
+    while(currentIndex != 0){
+        let randomIndex = Math.floor(Math.random() * array.length);
+        currentIndex -=1;
+
+        let temp = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temp;
+    }
+
+    return array;
 };
+const setSplitScreenBackgroundColor = () => {
+    let colors = [
+        '#1A88BD', '#0A4F70', '#BDB71A', '#3D0209', '#3D151A',
+        '#C84453', '#007018', '#FF243D', '#BD961A', '#573326', '#8A0615'
+    ]; 
+    shuffleColors(colors);
+    splitScreenBackground.style.backgroundImage = `linear-gradient(to right, ${colors[0]}, ${colors[1]})`; 
+    // splitScreenBackground.style.backgroundColor = colors[0]; 
+}
 
-let imageIndex = 1;
-showImages(imageIndex);
-
-document.getElementById('next-modal').addEventListener('click', (n) => {
-    n = 1;
-    showImages(imageIndex += n);
-});
-document.getElementById('prev-modal').addEventListener('click', (n) => {
-    n =-1;
-    showImages(imageIndex += n)
-});
-
+if(changeHomeText) {
+    setTimeout(() => {
+        changeHomeText.querySelector('#white-text').textContent = 'YOUR';
+    }, 5000);
+    setTimeout(() => {
+        changeHomeText.querySelector('#white-text').textContent = 'OUR';
+    }, 6500);
+    setTimeout(() => {
+        setInterval(() => {
+            setSplitScreenBackgroundColor();
+        }, 1500);
+    }, 6500);
+}
 
 //RENDER
-// document.querySelector('.alert').innerHTML = `
-	
+// document.querySelector('.render').innerHTML = `
+   
 // `;

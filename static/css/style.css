@@ -49,7 +49,7 @@ label {
 }
 label, input, textarea, select, option {
     font-size: 16px; line-height: 24px;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 input, textarea, select, option {
     background-color: #f3f3f3;
@@ -84,6 +84,7 @@ button { cursor: pointer; }
 .light-blue { background-color: #1A88BD; }
 .dark-blue { background-color: #0A4F70;}
 .yellow { background-color: #BDB71A; }
+.white { color: #fff }
 
 
 /*PAGE HEADER*/
@@ -328,12 +329,16 @@ header ul li form div button:hover { opacity: .5; }
 	align-items: center; 
 	width: 100%;
 }
-.search-form { margin-left: -1rem; display: flex; width: 100%; }
+.search-form { 
+    margin-left: -1rem; 
+    display: flex; align-items: center;
+    width: 100%; 
+}
 .search-form input { 
 	border-right: none; 
 	border-top-right-radius: 0; border-bottom-right-radius: 0; 
 	border-top-left-radius: 20px; border-bottom-left-radius: 20px;
-	width: 100%; 
+	width: 100%; height: 32px;
 	margin-bottom: 0;
 	background-color: #f3f3f3;
 }
@@ -342,9 +347,9 @@ header ul li form div button:hover { opacity: .5; }
 	border-top-left-radius: 0; border-bottom-left-radius: 0;
 	background-color: #f3f3f3;
 	color: #222;
-	height: 40px; width: 40px;
+	height: 32px; width: 40px;
 }
-.search-form button i { font-size: 18px; line-height: 40px; color: #222; }
+.search-form button i { font-size: 18px; line-height: 32px; color: #222; }
 .search-form button:hover { opacity: .9; transition: .3s ease-in-out; }
 .search-form::after { content: ''; clear: both; display: table; }
 
@@ -362,8 +367,8 @@ header ul li form div button:hover { opacity: .5; }
 
 
 @media only screen and (max-width: 1200px) { 
-	header { height: 96px; flex-direction: column; }
-    main { padding: 96px 0; }
+	header { height: 88px; flex-direction: column; }
+    main { padding: 88px 0 48px 0; }
 	.search { display: none } 
 	.search-m { display: flex; }
 }
