@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Title -->
-    <title>{{template "title" .}} | Fotogen</title>
+    <title>{{block "title" .}}{{end}} | Fotogen</title>
     <!-- Fonts + CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/{{template "css" .}}.css">
+    <link rel="stylesheet" href="/static/css/{{block "css" .}}{{end}}.css">
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png">
@@ -21,20 +21,20 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://fotogenrfw.online{{template "url" .}}">
+    <link rel="canonical" href="https://fotogenrfw.online{{block "url" .}}{{end}}">
     <!-- Metadata -->
-    <meta name="description" content="{{template "description" .}}">
+    <meta name="description" content="{{block "description" .}}{{end}}">
     <meta name="format-detection" content="telephone=no">
     <!-- Twitter Metadata -->
-    <meta name="twitter:title" content="{{template "meta_title" .}}">
-    <meta name="twitter:description" content="{{template "description" .}}">
-    <meta name="twitter:image" content="{{template "meta_image" .}}">
+    <meta name="twitter:title" content="{{block "meta_title" .}}{{end}}">
+    <meta name="twitter:description" content="{{block "description" .}}{{end}}">
+    <meta name="twitter:image" content="{{block "meta_image" .}}{{end}}">
     <meta name="twitter:card" content="summary_large_image">
     <!-- Other Social Media Metadata -->
-    <meta property="og:title" content="{{template "meta_title" .}}">
-    <meta property="og:description" content="{{template "description" .}}">
-    <meta property="og:image" content="{{template "meta_image" .}}">
-    <meta property="og:url" content="https://fotogenrfw.online{{template "url" .}}">
+    <meta property="og:title" content="{{block "meta_title" .}}{{end}}">
+    <meta property="og:description" content="{{block "description" .}}{{end}}">
+    <meta property="og:image" content="{{block "meta_image" .}}{{end}}">
+    <meta property="og:url" content="https://fotogenrfw.online{{block "url" .}}{{end}}">
     <meta property="og:site_name" content="Fotogen">
     <!--Scripts -->
     <script src="/static/js/main.js" defer></script>
@@ -83,6 +83,7 @@
             {{template "page-links" .}}
         </nav>
     </footer>
+    {{block "dropbox-js" .}}{{end}}
 </body>
 </html>
 

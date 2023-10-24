@@ -11,6 +11,7 @@ import (
 	"github.com/jag6/fotogen/context"
 	"github.com/jag6/fotogen/errors"
 	"github.com/jag6/fotogen/models"
+	"golang.org/x/sync/errgroup"
 )
 
 type Galleries struct {
@@ -220,6 +221,34 @@ func (g Galleries) UploadImage(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Something went wrong", http.StatusInternalServerError)
 			return
 		}
+	}
+	editPath := fmt.Sprintf("/galleries/%d/edit", gallery.ID)
+	http.Redirect(w, r, editPath, http.StatusFound)
+}
+
+func (g Galleries) ImageViaURL(w http.ResponseWriter, r *http.Request) {
+	gallery, err := g.galleryByID(w, r, userMustOwnGallery)
+	if err != nil {
+		return
+	}
+	err = r.ParseForm()
+	if err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	files := r.PostForm["files"]
+	var eg errgroup.Group
+	for _, file := range files {
+		imageFile := file
+		eg.Go(func() error {
+			return g.GalleryService.CreateImageViaURL(gallery.ID, imageFile)
+		})
+	}
+	err = eg.Wait()
+	if err != nil {
+		http.Error(w, "Unable to download all images", http.StatusInternalServerError)
+		return
 	}
 	editPath := fmt.Sprintf("/galleries/%d/edit", gallery.ID)
 	http.Redirect(w, r, editPath, http.StatusFound)

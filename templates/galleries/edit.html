@@ -21,16 +21,16 @@
                 </div>
                 <div>
                     <label for="title">Change Title</label>
-                    <input type="text" name="title" id="title" required value="{{.Title}}" autofocus>
+                    <input type="text" name="title" id="title" required value="{{.Title}}">
                 </div>
                 <div class="margin-top-1">
                     <button aria-label="Edit Gallery Form Submit Button" type="submit" class="form-btn">Update</button>
                 </div>
             </form>
         </section>
-        <!-- Upload Image -->
-        <section>
-            <div class="upload-image-form margin-top-4">
+        <!-- Upload Images -->
+        <section class="margin-top-4">
+            <div class="upload-image-form">
                 <form action="/galleries/{{.ID}}/images" method="post" enctype="multipart/form-data">
                     <div>
                         {{csrfField}}
@@ -42,6 +42,19 @@
                     </div>
                     <div class="margin-top-1">
                         <button aria-label="Upload Image Form Submit Button" type="submit" class="form-btn">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- Upload Images via Dropbox-->
+        <section class="dropbox-chooser-form margin-top-4">
+            <div class="upload-image-for">
+                <form id="dropbox-chooser-form" action="/galleries/{{.ID}}/images/url" method="post" enctype="multipart/form-data">
+                    <div>
+                        {{csrfField}}
+                    </div>
+                    <div>
+                        <p>Add Images Via Dropbox</p>
                     </div>
                 </form>
             </div>
@@ -84,4 +97,35 @@
             </div>
         </section>
     </section>
+{{end}}
+
+{{define "dropbox-js"}}
+    <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="0782c93blt0ofb1"></script>
+    <script>
+        const setupDropbox = () => {
+            const dropboxForm = document.getElementById('dropbox-chooser-form');
+            if(!dropboxForm) {
+                return;
+            }
+            const options = {
+                success: function(files) {
+                    files.forEach((file) => {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'files';
+                        input.value = file.link;
+                        dropboxForm.appendChild(input);
+                    });
+                    dropboxForm.submit();
+                },
+                linkType: 'direct', 
+                multiselect: true, 
+                extensions: ['images'],
+                folderselect: false
+            };
+            const dropboxFormBtn = Dropbox.createChooseButton(options);
+            dropboxForm.appendChild(dropboxFormBtn);
+        }
+        setupDropbox();
+    </script>
 {{end}}

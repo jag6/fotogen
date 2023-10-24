@@ -1,12 +1,15 @@
 package models
 
 import (
+	"bytes"
 	"database/sql"
 	"errors"
 	"fmt"
 	"io"
 	"io/fs"
+	"net/http"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 )
@@ -149,8 +152,8 @@ func (gs *GalleryService) Image(galleryID int, filename string) (Image, error) {
 	}, nil
 }
 
-func (gs *GalleryService) CreateImage(galleryID int, filename string, contents io.ReadSeeker) error {
-	err := checkContentType(contents, gs.imageContentTypes())
+func (gs *GalleryService) CreateImage(galleryID int, filename string, contents io.Reader) error {
+	readBytes, err := checkContentType(contents, gs.imageContentTypes())
 	if err != nil {
 		return fmt.Errorf("creating image %v: %w", filename, err)
 	}
@@ -170,11 +173,28 @@ func (gs *GalleryService) CreateImage(galleryID int, filename string, contents i
 		return fmt.Errorf("creating image file: %w", err)
 	}
 	defer dst.Close()
-	_, err = io.Copy(dst, contents)
+	completeFile := io.MultiReader(
+		bytes.NewBuffer(readBytes),
+		contents,
+	)
+	_, err = io.Copy(dst, completeFile)
 	if err != nil {
 		return fmt.Errorf("copying contents to image: %w", err)
 	}
 	return nil
+}
+
+func (gs *GalleryService) CreateImageViaURL(galleryID int, url string) error {
+	filename := path.Base(url)
+	res, err := http.Get(url)
+	if err != nil {
+		return fmt.Errorf("downloading image: %w", err)
+	}
+	defer res.Body.Close()
+	if res.StatusCode != http.StatusOK {
+		return fmt.Errorf("downloading image: invalid status code %d", res.StatusCode)
+	}
+	return gs.CreateImage(galleryID, filename, res.Body)
 }
 
 func (gs *GalleryService) DeleteImage(galleryID int, filename string) error {

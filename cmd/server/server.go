@@ -14,6 +14,7 @@ import (
 	"github.com/jag6/fotogen/templates"
 	"github.com/jag6/fotogen/views"
 	"github.com/joho/godotenv"
+	"golang.org/x/oauth2"
 )
 
 type config struct {
@@ -26,6 +27,7 @@ type config struct {
 	Server struct {
 		Address string
 	}
+	OAuthProviders map[string]*oauth2.Config
 }
 
 func loadEnvConfig() (config, error) {
@@ -63,6 +65,20 @@ func loadEnvConfig() (config, error) {
 
 	//server
 	cfg.Server.Address = os.Getenv("SERVER_ADDRESS")
+
+	//oauth
+	cfg.OAuthProviders = make(map[string]*oauth2.Config)
+	dbxConfig := &oauth2.Config{
+		ClientID:     os.Getenv("DROPBOX_APP_KEY"),
+		ClientSecret: os.Getenv("DROPBOX_APP_SECRET"),
+		Scopes:       []string{"files.metadata.read", "files.content.read"},
+		Endpoint: oauth2.Endpoint{
+			AuthURL:  "https://www.dropbox.com/oauth2/authorize",
+			TokenURL: "https://api.dropboxapi.com/oauth2/token",
+		},
+	}
+	cfg.OAuthProviders["dropbox"] = dbxConfig
+
 	return cfg, nil
 }
 
@@ -137,6 +153,10 @@ func run(cfg config) error {
 	galleriesC.Templates.Show = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/show.html"))
 	galleriesC.Templates.Edit = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/edit.html"))
 
+	oauthC := controllers.OAuth{
+		ProviderConfigs: cfg.OAuthProviders,
+	}
+
 	//router and routes
 	r := chi.NewRouter()
 	r.Use(csrfMw)
@@ -196,12 +216,21 @@ func run(cfg config) error {
 			//edit page
 			r.Get("/{id}/edit", galleriesC.Edit)
 			r.Post("/{id}", galleriesC.Update)
-			//upload image
+			//upload images
 			r.Post("/{id}/images", galleriesC.UploadImage)
+			//upload images via dropbox
+			r.Post("/{id}/images/url", galleriesC.ImageViaURL)
 			//delete gallery, image
 			r.Post("/{id}/delete", galleriesC.Delete)
 			r.Post("/{id}/media/{filename}/delete", galleriesC.DeleteImage)
 		})
+	})
+
+	//oauth
+	r.Route("/oauth/{provider}", func(r chi.Router) {
+		r.Use(umw.RequireUser)
+		r.Get("/connect", oauthC.Connect)
+		r.Get("/callback", oauthC.Callback)
 	})
 
 	//404
