@@ -149,6 +149,7 @@ func run(cfg config) error {
 		GalleryService: galleryService,
 	}
 	galleriesC.Templates.Index = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/index.html"))
+	galleriesC.Templates.IndexRead = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/index-read.html"))
 	galleriesC.Templates.New = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/new.html"))
 	galleriesC.Templates.Show = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/show.html"))
 	galleriesC.Templates.Edit = views.Must(views.ParseFS(templates.FS, "base.html", "galleries/edit.html"))
@@ -210,6 +211,8 @@ func run(cfg config) error {
 			r.Use(umw.RequireUser)
 			//index page
 			r.Get("/", galleriesC.Index)
+			//index read page
+			r.Get("/user/{id}", galleriesC.IndexRead)
 			//new page
 			r.Get("/new", galleriesC.New)
 			r.Post("/", galleriesC.Create)

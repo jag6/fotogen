@@ -16,10 +16,11 @@ import (
 
 type Galleries struct {
 	Templates struct {
-		New   Template
-		Show  Template
-		Edit  Template
-		Index Template
+		New       Template
+		Show      Template
+		Edit      Template
+		Index     Template
+		IndexRead Template
 	}
 	GalleryService *models.GalleryService
 }
@@ -170,6 +171,38 @@ func (g Galleries) Index(w http.ResponseWriter, r *http.Request) {
 	g.Templates.Index.Execute(w, r, data)
 }
 
+func (g Galleries) IndexRead(w http.ResponseWriter, r *http.Request) {
+	user, err := g.userByID(w, r)
+	if err != nil {
+		return
+	}
+
+	type Gallery struct {
+		ID    int
+		Title string
+	}
+	var data struct {
+		ID        int
+		Username  string
+		Galleries []Gallery
+	}
+	data.ID = user.ID
+	data.Username = user.Username
+	galleries, err := g.GalleryService.ByUserID(user.ID)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Something went wrong", http.StatusInternalServerError)
+		return
+	}
+	for _, gallery := range galleries {
+		data.Galleries = append(data.Galleries, Gallery{
+			ID:    gallery.ID,
+			Title: gallery.Title,
+		})
+	}
+	g.Templates.IndexRead.Execute(w, r, data)
+}
+
 func (g Galleries) Image(w http.ResponseWriter, r *http.Request) {
 	filename := g.filename(w, r)
 	galleryID, err := strconv.Atoi(chi.URLParam(r, "id"))
@@ -310,4 +343,31 @@ func userMustOwnGallery(w http.ResponseWriter, r *http.Request, gallery *models.
 		return fmt.Errorf("user does not have access to this gallery")
 	}
 	return nil
+}
+
+// may move to users controller later
+type userOpt func(http.ResponseWriter, *http.Request, *models.User) error
+
+func (g Galleries) userByID(w http.ResponseWriter, r *http.Request, opts ...userOpt) (*models.User, error) {
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		http.Error(w, "Invalid ID", http.StatusNotFound)
+		return nil, err
+	}
+	user, err := g.GalleryService.ByUserIDForIndexRead(id)
+	if err != nil {
+		if errors.Is(err, models.ErrNotFound) {
+			http.Error(w, "User not found", http.StatusNotFound)
+			return nil, err
+		}
+		http.Error(w, "Something went badly wrong", http.StatusInternalServerError)
+		return nil, err
+	}
+	for _, opt := range opts {
+		err = opt(w, r, user)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return user, nil
 }

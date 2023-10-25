@@ -235,3 +235,22 @@ func hasExtension(file string, extensions []string) bool {
 	}
 	return false
 }
+
+// may move to users controller later
+func (gs *GalleryService) ByUserIDForIndexRead(id int) (*User, error) {
+	user := User{
+		ID: id,
+	}
+	row := gs.DB.QueryRow(`
+		SELECT username
+		FROM users
+		WHERE id = $1;`, user.ID)
+	err := row.Scan(&user.Username)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrNotFound
+		}
+		return nil, fmt.Errorf("query user by id: %w", err)
+	}
+	return &user, nil
+}

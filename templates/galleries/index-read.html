@@ -1,0 +1,37 @@
+{{define "title"}}{{.Username}}'s Galleries{{end}}
+
+{{define "css"}}gallery{{end}}
+
+{{define "url"}}/galleries/user{{end}}
+
+{{define "description"}}An index of all {{.Username}}'s' galleries.{{end}}
+
+{{define "meta_image"}}{{end}}
+
+{{define "page"}}
+    <section class="page-header">
+        <h1>{{.Username}}'s Galleries</h1>
+    </section>
+    <div class="galleries-container">
+        <table class="galleries-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Galleries}}
+                    <tr>
+                        <td>{{.Title}}</td>
+                        <td>
+                            <div class="gallery-links">
+                                <a href="/galleries/{{.ID}}">Here</a>
+                            </div>
+                        </td>
+                    </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+{{end}}

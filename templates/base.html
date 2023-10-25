@@ -26,18 +26,19 @@
     <meta name="description" content="{{block "description" .}}{{end}}">
     <meta name="format-detection" content="telephone=no">
     <!-- Twitter Metadata -->
-    <meta name="twitter:title" content="{{block "meta_title" .}}{{end}}">
+    <meta name="twitter:title" content="{{block "title" .}}{{end}}">
     <meta name="twitter:description" content="{{block "description" .}}{{end}}">
     <meta name="twitter:image" content="{{block "meta_image" .}}{{end}}">
     <meta name="twitter:card" content="summary_large_image">
     <!-- Other Social Media Metadata -->
-    <meta property="og:title" content="{{block "meta_title" .}}{{end}}">
+    <meta property="og:title" content="{{block "title" .}}{{end}}">
     <meta property="og:description" content="{{block "description" .}}{{end}}">
     <meta property="og:image" content="{{block "meta_image" .}}{{end}}">
     <meta property="og:url" content="https://fotogenrfw.online{{block "url" .}}{{end}}">
     <meta property="og:site_name" content="Fotogen">
     <!--Scripts -->
     <script src="/static/js/main.js" defer></script>
+    {{block "js" .}}{{end}}
 </head>
 <body>
     <header>

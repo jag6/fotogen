@@ -6,8 +6,6 @@
 
 {{define "description"}}Search for a user and view their galleries.{{end}}
 
-{{define "meta_title"}}Search Users{{end}}
-
 {{define "meta_image"}}{{end}}
 
 {{define "page"}}
@@ -18,7 +16,7 @@
         {{else}}
             <ul>
                 {{range .Users}}
-                    <li><a href="/user/{{.ID}}"><span><i class="fa-solid fa-user"></i></span>{{.Username}}</a></li>
+                    <li><a href="/galleries/user/{{.ID}}"><span><i class="fa-solid fa-user"></i></span>{{.Username}}</a></li>
                 {{end}}
             </ul>
         {{end}}
