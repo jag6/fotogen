@@ -103,5 +103,5 @@ func redirectURI(r *http.Request, provider string) string {
 	if r.Host == "localhost:3000" {
 		return fmt.Sprintf("http://localhost:3000/oauth/%s/callback", provider)
 	}
-	return fmt.Sprintf("https://fotogenrfw.online/oauth/%s/callback", provider)
+	return fmt.Sprintf("https://fotogenrfw.site/oauth/%s/callback", provider)
 }
