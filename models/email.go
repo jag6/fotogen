@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	DefaultSender = "support@fotogen.com"
+	DefaultSender = "support@fotogenrfw.site"
 )
 
 type Email struct {
