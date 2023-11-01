@@ -10,7 +10,10 @@ This is a photo sharing web app that allows signed-in users to create galleries 
   - Images
     - Multi-file upload from either device or oauth2 through Dropbox
     - duplicate images not allowed
+- Logging
+  - view logs on highlight.io
 - Reset password
+  - get email sent through mailtrap
 - Search
   - query users by username
   - single input in navbar
