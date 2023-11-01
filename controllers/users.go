@@ -141,7 +141,7 @@ func (u Users) ProcessForgotPassword(w http.ResponseWriter, r *http.Request) {
 	vals := url.Values{
 		"token": {pwReset.Token},
 	}
-	resetUrl := "https://fotogen.com/reset-pw?" + vals.Encode()
+	resetUrl := "https://fotogenrfw.site/reset-pw?" + vals.Encode()
 	err = u.EmailService.ForgotPassword(data.Email, resetUrl)
 	if err != nil {
 		fmt.Println(err)
