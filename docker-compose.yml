@@ -8,4 +8,4 @@ services:
     environment: # Provide environment variables
       POSTGRES_USER: ${PSQL_USER} 
       POSTGRES_PASSWORD: ${PSQL_PASSWORD}
-      POSTGRES_DB: ${PSQL_DBNAME}
+      POSTGRES_DB: ${PSQL_DATABASE}

@@ -42,7 +42,7 @@ func loadEnvConfig() (config, error) {
 		Port:     os.Getenv("PSQL_PORT"),
 		User:     os.Getenv("PSQL_USER"),
 		Password: os.Getenv("PSQL_PASSWORD"),
-		DBName:   os.Getenv("PSQL_DBNAME"),
+		DBName:   os.Getenv("PSQL_DATABASE"),
 		SSLMode:  os.Getenv("PSQL_SSLMODE"),
 	}
 	if cfg.PSQL.Host == "" && cfg.PSQL.Port == "" {
