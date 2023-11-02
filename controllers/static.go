@@ -26,11 +26,11 @@ func FAQ(tpl Template) http.HandlerFunc {
 		},
 		{
 			Question: "How do I contact support?",
-			Answer:   `Email us - <a href="">support@fotogen.com</a>`,
+			Answer:   `Email us - <a href="">support@fotogenrfw.site</a>`,
 		},
 		{
 			Question: "Where is your office located",
-			Answer:   "Our whole team is remote",
+			Answer:   "Our whole team is remote.",
 		},
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
