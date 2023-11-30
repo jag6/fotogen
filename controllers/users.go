@@ -44,25 +44,36 @@ func (u Users) Create(w http.ResponseWriter, r *http.Request) {
 	data.Email = r.FormValue("email")
 	data.Username = r.FormValue("username")
 	data.Password = r.FormValue("password")
-	user, err := u.UserService.Create(data.Email, data.Username, data.Password)
-	if err != nil {
-		if errors.Is(err, models.ErrEmailTaken) {
-			err = errors.Public(err, "That email address is already associated with an account.")
+	if data.Email != "" && data.Username != "" && data.Password != "" {
+		user, err := u.UserService.Create(data.Email, data.Username, data.Password)
+		if err != nil {
+			var modelError error
+			switch errors.Is(err, modelError) {
+			case modelError == models.ErrEmailTaken:
+				err = errors.Public(err, "That email address is already associated with an account.")
+			case modelError == models.ErrUsernameTaken:
+				err = errors.Public(err, "That username is already taken.")
+			}
+			u.Templates.New.Execute(w, r, data, err)
+			return
 		}
+		// if errors.Is(err, models.ErrEmailTaken) {
+		// 	err = errors.Public(err, "That email address is already associated with an account.")
+		// }
 		// if errors.Is(err, models.ErrUsernameTaken) {
 		// 	err = errors.Public(err, "That username is already taken.")
 		// }
-		u.Templates.New.Execute(w, r, data, err)
-		return
+		session, err := u.SessionService.Create(user.ID)
+		if err != nil {
+			fmt.Println(err)
+			http.Redirect(w, r, "/sign-in", http.StatusFound)
+			return
+		}
+		setCookie(w, CookieSession, session.Token)
+		http.Redirect(w, r, "/galleries", http.StatusFound)
+	} else {
+		http.Error(w, "Please fill out the form", http.StatusInternalServerError)
 	}
-	session, err := u.SessionService.Create(user.ID)
-	if err != nil {
-		fmt.Println(err)
-		http.Redirect(w, r, "/sign-in", http.StatusFound)
-		return
-	}
-	setCookie(w, CookieSession, session.Token)
-	http.Redirect(w, r, "/galleries", http.StatusFound)
 }
 
 func (u Users) SignIn(w http.ResponseWriter, r *http.Request) {

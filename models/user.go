@@ -42,8 +42,11 @@ func (us *UserService) Create(email, username, password string) (*User, error) {
 	if err != nil {
 		var pgError *pgconn.PgError
 		if errors.As(err, &pgError) {
-			if pgError.Code == pgerrcode.UniqueViolation {
+			var columnName = pgError.ColumnName
+			if pgError.Code == pgerrcode.UniqueViolation && columnName == "email" {
 				return nil, ErrEmailTaken
+			} else if pgError.Code == pgerrcode.UniqueViolation && columnName == "username" {
+				return nil, ErrUsernameTaken
 			}
 		}
 		return nil, fmt.Errorf("create user :%w", err)

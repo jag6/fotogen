@@ -9,9 +9,9 @@ import (
 )
 
 var (
-	ErrNotFound   = errors.New("models: resource could not be found")
-	ErrEmailTaken = errors.New("models: email address already in use")
-	//ErrUsernameTaken = errors.New("models: username already in use")
+	ErrNotFound      = errors.New("models: resource could not be found")
+	ErrEmailTaken    = errors.New("models: email address already in use")
+	ErrUsernameTaken = errors.New("models: username already in use")
 )
 
 type FileError struct {
