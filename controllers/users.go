@@ -93,8 +93,10 @@ func (u Users) ProcessSignIn(w http.ResponseWriter, r *http.Request) {
 	data.Password = r.FormValue("password")
 	user, err := u.UserService.Authenticate(data.Email, data.Password)
 	if err != nil {
-		fmt.Println(err)
-		http.Error(w, "Something went wrong", http.StatusInternalServerError)
+		if errors.Is(err, models.ErrNotFound) {
+			err = errors.Public(err, "User not found.")
+		}
+		u.Templates.SignIn.Execute(w, r, data, err)
 		return
 	}
 	session, err := u.SessionService.Create(user.ID)

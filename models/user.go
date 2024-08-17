@@ -64,6 +64,12 @@ func (us *UserService) Authenticate(email, password string) (*User, error) {
 		FROM users WHERE email=$1`, email)
 	err := row.Scan(&user.ID, &user.PasswordHash)
 	if err != nil {
+		var pgError *pgconn.PgError
+		if errors.As(err, &pgError) {
+			if err == sql.ErrNoRows {
+				return nil, ErrNotFound
+			}
+		}
 		return nil, fmt.Errorf("authenticate: %w", err)
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password))
